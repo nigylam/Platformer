@@ -31,7 +31,7 @@ public class CharacterSoundController : MonoBehaviour
 
     private IEnumerator DisableSoundAfterDelay()
     {
-        yield return new WaitUntil(() => _audiosource.isPlaying == false);
+        yield return _waitForDisable;
 
         _audiosource.volume = 0;
     }
