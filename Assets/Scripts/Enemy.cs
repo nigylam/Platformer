@@ -4,7 +4,6 @@ using UnityEngine;
 public class Enemy : MonoBehaviour
 {
     private readonly int DieAnimation = Animator.StringToHash("Die");
-    private readonly string AnimatorBaseLayer = "Base Layer";
 
     [SerializeField] private Animator _animator;
     [SerializeField] private Transform[] _patrolPoints;
@@ -40,7 +39,7 @@ public class Enemy : MonoBehaviour
         _bodyCollider.enabled = false;
         _audioSource.Play();
         SpawnReward();
-        StartCoroutine(PlayDie());
+        _animator.Play(DieAnimation);
     }
 
     public void Respawn()
@@ -55,15 +54,6 @@ public class Enemy : MonoBehaviour
     {
         _gemReward.gameObject.SetActive(true);
         _gemReward.transform.position = transform.position;
-    }
-
-    private IEnumerator PlayDie()
-    {
-        _animator.Play(DieAnimation);
-
-        yield return new WaitForSeconds(_animator.GetCurrentAnimatorStateInfo(_animator.GetLayerIndex(AnimatorBaseLayer)).length);
-
-        gameObject.SetActive(false);
     }
 
     private void Patrolling()

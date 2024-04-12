@@ -12,7 +12,7 @@ public class CharacterSoundController : MonoBehaviour
 
     private WaitUntil _waitForDisable;
     private float _volume = 1;
-    private bool _isSoundOn;
+    private Coroutine _disableSound;
 
     private void OnEnable()
     {
@@ -27,29 +27,33 @@ public class CharacterSoundController : MonoBehaviour
     {
         _character.Dead -= DisableSound;
         _controller.Jumped -= PlayJumpSound;
-        _collides.Damaged -= PlayDamageSound;
     }
 
     private IEnumerator DisableSoundAfterDelay()
     {
-        yield return _waitForDisable;
+        yield return new WaitUntil(() => _audiosource.isPlaying == false);
 
-        if (_isSoundOn == false)
-            _audiosource.volume = 0;
+        _audiosource.volume = 0;
     }
 
     private void DisableSound(bool isDisabled)
     {
         if (isDisabled)
         {
-            StartCoroutine(DisableSoundAfterDelay());
-            _isSoundOn = false;
+            PlayDamageSound();
+            _disableSound = StartCoroutine(DisableSoundAfterDelay());
         }
         else
         {
+            StopDisablingSound();
             _audiosource.volume = _volume;
-            _isSoundOn = true;
         }
+    }
+
+    private void StopDisablingSound()
+    {
+        if (_disableSound != null)
+            StopCoroutine(_disableSound);
     }
 
     private void PlayJumpSound()
