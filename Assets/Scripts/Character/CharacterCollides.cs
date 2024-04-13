@@ -9,13 +9,13 @@ public class CharacterCollides : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D other)
     {
-        if (other.gameObject.GetComponent<Gem>() != null)
+        if (other.gameObject.TryGetComponent<Gem>(out Gem gem))
             GemCollected?.Invoke();
 
-        if (other.gameObject.GetComponent<EnemyBody>() != null)
+        if (other.gameObject.TryGetComponent<EnemyBody>(out EnemyBody enemyBody))
             Damaged?.Invoke();
 
-        if (other.gameObject.GetComponent<EnemyWeakPlace>() != null)
+        if (other.gameObject.TryGetComponent<EnemyWeakPlace>(out EnemyWeakPlace enemyWeak))
             JumpEnemy?.Invoke();
     }
 }

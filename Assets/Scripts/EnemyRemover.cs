@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class RemoveEnemy : StateMachineBehaviour
+public class EnemyRemover : StateMachineBehaviour
 {
     override public void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
