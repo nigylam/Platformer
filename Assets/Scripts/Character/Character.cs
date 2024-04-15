@@ -3,12 +3,13 @@ using UnityEngine;
 
 public class Character : MonoBehaviour
 {
-    public event Action<bool> Dead;
-
     [SerializeField] private CharacterAnimationController _animationController;
     [SerializeField] private CharacterControler _controller;
     [SerializeField] private CharacterCollides _collides;
     [SerializeField] private Game _game;
+
+    public event Action Dead;
+    public event Action Respawned;
 
     private void OnEnable()
     {
@@ -24,11 +25,11 @@ public class Character : MonoBehaviour
 
     private void SetDead()
     {
-        Dead?.Invoke(true);
+        Dead?.Invoke();
     }
 
     public void Respawn()
     {
-        Dead?.Invoke(false);
+        Respawned?.Invoke();
     }
 }

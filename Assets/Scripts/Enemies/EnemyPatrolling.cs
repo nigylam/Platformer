@@ -1,59 +1,49 @@
-using System.Collections;
+using System;
 using UnityEngine;
 
-public class Enemy : MonoBehaviour
+public class EnemyPatrolling : MonoBehaviour
 {
-    private readonly int DieAnimation = Animator.StringToHash("Die");
-
-    [SerializeField] private Animator _animator;
     [SerializeField] private Transform[] _patrolPoints;
-    [SerializeField] private Collider2D _bodyCollider;
-    [SerializeField] private Collider2D _weekPlaceCollider;
-    [SerializeField] private Gem _gemReward;
-    [SerializeField] private AudioSource _audioSource;
-    [SerializeField] private float _speed;
+    [SerializeField] private Enemy _enemy;
     [SerializeField] private float _closeDistanceToTarget = 2f;
-    [SerializeField] private float _jumpPadForce = 3f;
+    [SerializeField] private float _speed = 3f;
 
-    public float JumpPadForce { get => _jumpPadForce; }
-
+    private float _speedBeforeDeath;
     private bool _isFacingRight = false;
     private int _currentPatrolPoint = 0;
     private float _horizontalMoving = -1;
-    private float _speedBeforeDeath;
+
+    private void OnEnable()
+    {
+        _enemy.Dead += Die;
+        _enemy.Respawned += Respawn;
+    }
+
+    private void OnDisable()
+    {
+        _enemy.Dead -= Die;
+        _enemy.Respawned -= Respawn;
+    }
 
     private void Start()
     {
         _speedBeforeDeath = _speed;
     }
 
+    private void Die()
+    {
+        _speed = 0;
+    }
+
+    private void Respawn()
+    {
+        _speed = _speedBeforeDeath;
+    }
+
     private void Update()
     {
         Patrolling();
         Flip();
-    }
-
-    public void Die()
-    {
-        _speed = 0;
-        _bodyCollider.enabled = false;
-        _audioSource.Play();
-        SpawnReward();
-        _animator.Play(DieAnimation);
-    }
-
-    public void Respawn()
-    {
-        gameObject.SetActive(true);
-        _bodyCollider.enabled = true;
-        _weekPlaceCollider.enabled = true;
-        _speed = _speedBeforeDeath;
-    }
-
-    private void SpawnReward()
-    {
-        _gemReward.gameObject.SetActive(true);
-        _gemReward.transform.position = transform.position;
     }
 
     private void Patrolling()
@@ -82,4 +72,5 @@ public class Enemy : MonoBehaviour
             transform.localScale = localScale;
         }
     }
+
 }

@@ -18,7 +18,7 @@ public class CharacterSoundController : MonoBehaviour
     {
         _character.Dead += DisableSound;
         _controller.Jumped += PlayJumpSound;
-        _collides.Damaged += PlayDamageSound;
+        _character.Respawned += EnableSound;
 
         _waitForDisable = new WaitUntil(() => _audiosource.isPlaying == false);
     }
@@ -26,6 +26,7 @@ public class CharacterSoundController : MonoBehaviour
     private void OnDisable()
     {
         _character.Dead -= DisableSound;
+        _character.Respawned -= EnableSound;
         _controller.Jumped -= PlayJumpSound;
     }
 
@@ -35,19 +36,16 @@ public class CharacterSoundController : MonoBehaviour
 
         _audiosource.volume = 0;
     }
-
-    private void DisableSound(bool isDisabled)
+    private void EnableSound()
     {
-        if (isDisabled)
-        {
-            PlayDamageSound();
-            _disableSound = StartCoroutine(DisableSoundAfterDelay());
-        }
-        else
-        {
-            StopDisablingSound();
-            _audiosource.volume = _volume;
-        }
+        StopDisablingSound();
+        _audiosource.volume = _volume;
+    }
+
+    private void DisableSound()
+    {
+        PlayDamageSound();
+        _disableSound = StartCoroutine(DisableSoundAfterDelay());
     }
 
     private void StopDisablingSound()

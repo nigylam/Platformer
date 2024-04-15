@@ -6,8 +6,6 @@ public class CharacterControler : MonoBehaviour
     private const string Horizontal = nameof(Horizontal);
     private const string Vertical = nameof(Vertical);
 
-    public event Action Jumped;
-
     [SerializeField] private Rigidbody2D _rigidbody;
     [SerializeField] private Transform _groundCheck;
     [SerializeField] private LayerMask _groundLayer;
@@ -16,6 +14,8 @@ public class CharacterControler : MonoBehaviour
     [SerializeField] private Game _game;
     [SerializeField] private float _speed;
     [SerializeField] private float _jumpForce;
+
+    public event Action Jumped;
 
     public float RigidbodyVelocityY { get => _rigidbody.velocity.y; }
     public float RigidbodyVelocityX { get => _rigidbody.velocity.x; }
@@ -47,6 +47,7 @@ public class CharacterControler : MonoBehaviour
     private void OnEnable()
     {
         _character.Dead += SetDisable;
+        _character.Respawned += SetEnable;
         _game.Won += SetDisable;
         _collides.JumpEnemy += JumpEnemy;
     }
@@ -54,6 +55,7 @@ public class CharacterControler : MonoBehaviour
     private void OnDisable()
     {
         _character.Dead -= SetDisable;
+        _character.Respawned += SetEnable;
         _game.Won -= SetDisable;
         _collides.JumpEnemy -= JumpEnemy;
     }
@@ -63,18 +65,16 @@ public class CharacterControler : MonoBehaviour
         _rigidbody.velocity = new Vector2(_rigidbody.velocity.x, _jumpForce);
     }
 
-    private void SetDisable(bool isDisable)
-    {
-        _isDisable = isDisable;
-        _rigidbody.velocity = Vector2.zero;
-
-        if(_isDisable == false)
-            transform.position = _startPosition;
-    }
-
     private void SetDisable()
     {
         _isDisable = true;
+        _rigidbody.velocity = new Vector2(0, _rigidbody.velocity.y);
+    }
+
+    private void SetEnable()
+    {
+        _isDisable = false;
+        transform.position = _startPosition;
     }
 
     public bool IsGrounded()

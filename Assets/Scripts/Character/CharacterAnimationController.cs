@@ -25,13 +25,13 @@ public class CharacterAnimationController : MonoBehaviour
     private void OnEnable()
     {
         _collides.Damaged += SetDamaged;
-        _character.Dead += SetRespawned;
+        _character.Respawned += SetRespawned;
     }
 
     private void OnDisable()
     {
         _collides.Damaged -= SetDamaged;
-        _character.Dead -= SetRespawned;
+        _character.Respawned -= SetRespawned;
     }
 
     private void SetDamaged()
@@ -39,10 +39,5 @@ public class CharacterAnimationController : MonoBehaviour
         Animator.Play(DamagedState);
     }
 
-    private void SetRespawned(bool isDead)
-    {
-        if (isDead == false)
-            Animator.Play(IdleState);
-    }
-
+    private void SetRespawned() => Animator.Play(IdleState);
 }
