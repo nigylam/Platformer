@@ -1,7 +1,7 @@
 using System;
 using UnityEngine;
 
-public class CharacterCollides : MonoBehaviour
+public class CharacterCollisions : MonoBehaviour
 {
     public event Action Damaged;
     public event Action GemCollected;

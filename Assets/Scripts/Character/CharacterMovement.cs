@@ -1,7 +1,7 @@
 using System;
 using UnityEngine;
 
-public class CharacterControler : MonoBehaviour
+public class CharacterMovement : MonoBehaviour
 {
     private const string Horizontal = nameof(Horizontal);
     private const string Vertical = nameof(Vertical);
@@ -10,7 +10,7 @@ public class CharacterControler : MonoBehaviour
     [SerializeField] private Transform _groundCheck;
     [SerializeField] private LayerMask _groundLayer;
     [SerializeField] private Character _character;
-    [SerializeField] private CharacterCollides _collides;
+    [SerializeField] private CharacterCollisions _collides;
     [SerializeField] private Game _game;
     [SerializeField] private float _speed;
     [SerializeField] private float _jumpForce;
@@ -90,10 +90,7 @@ public class CharacterControler : MonoBehaviour
         {
             Jumped?.Invoke();
 
-            if (IsGrounded() == false)
-                _canDoSecondJump = false;
-            else
-                _canDoSecondJump = true;
+            _canDoSecondJump = IsGrounded();
 
             _rigidbody.velocity = new Vector2(_rigidbody.velocity.x, _jumpForce);
         }

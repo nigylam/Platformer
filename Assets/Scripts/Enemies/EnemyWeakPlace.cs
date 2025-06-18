@@ -9,7 +9,7 @@ public class EnemyWeakPlace : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.gameObject.GetComponent<CharacterControler>() != null)
+        if (collision.gameObject.TryGetComponent(out CharacterMovement _))
         {
             _enemy.Die();
             Dead?.Invoke();

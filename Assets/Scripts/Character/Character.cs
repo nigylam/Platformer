@@ -3,9 +3,9 @@ using UnityEngine;
 
 public class Character : MonoBehaviour
 {
-    [SerializeField] private CharacterAnimationController _animationController;
-    [SerializeField] private CharacterControler _controller;
-    [SerializeField] private CharacterCollides _collides;
+    [SerializeField] private CharacterAnimations _animationController;
+    [SerializeField] private CharacterMovement _controller;
+    [SerializeField] private CharacterCollisions _collides;
     [SerializeField] private Game _game;
 
     public event Action Dead;

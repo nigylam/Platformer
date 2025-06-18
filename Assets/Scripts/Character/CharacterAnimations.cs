@@ -1,8 +1,6 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
-public class CharacterAnimationController : MonoBehaviour
+public class CharacterAnimations : MonoBehaviour
 {
     private readonly int DamagedState = Animator.StringToHash("Damaged");
     private readonly int IdleState = Animator.StringToHash("Idle");
@@ -10,8 +8,8 @@ public class CharacterAnimationController : MonoBehaviour
     private readonly int FloatVelocityX = Animator.StringToHash("VelocityX");
     private readonly int BoolIsGrounded = Animator.StringToHash("IsGrounded");
 
-    [SerializeField] private CharacterControler _controller;
-    [SerializeField] private CharacterCollides _collides;
+    [SerializeField] private CharacterMovement _controller;
+    [SerializeField] private CharacterCollisions _collides;
     [SerializeField] private Character _character;
     [SerializeField] private Animator Animator;
 

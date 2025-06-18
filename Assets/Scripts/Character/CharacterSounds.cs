@@ -1,13 +1,13 @@
 using System.Collections;
 using UnityEngine;
 
-public class CharacterSoundController : MonoBehaviour
+public class CharacterSounds : MonoBehaviour
 {
     [SerializeField] private AudioSource _audiosource;
     [SerializeField] private AudioClip _audioJump;
     [SerializeField] private AudioClip _audioDamage;
-    [SerializeField] private CharacterControler _controller;
-    [SerializeField] private CharacterCollides _collides;
+    [SerializeField] private CharacterMovement _controller;
+    [SerializeField] private CharacterCollisions _collides;
     [SerializeField] private Character _character;
 
     private WaitUntil _waitForDisable;

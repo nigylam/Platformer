@@ -5,7 +5,7 @@ using TMPro;
 public class Game : MonoBehaviour
 {
     [SerializeField] private Character _character;
-    [SerializeField] private CharacterCollides _characterCollides;
+    [SerializeField] private CharacterCollisions _characterCollides;
     [SerializeField] private GameObject _gameEnd;
     [SerializeField] private TextMeshProUGUI _gameEndText;
     [SerializeField] private TextMeshProUGUI _gemsCounter;

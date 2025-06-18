@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class EnemiesController : MonoBehaviour
+public class EnemiesRespawner : MonoBehaviour
 {
     [SerializeField] private Enemy[] _enemies;
     [SerializeField] private Game _game;
