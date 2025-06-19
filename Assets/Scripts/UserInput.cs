@@ -8,11 +8,11 @@ public class UserInput : MonoBehaviour
 
     public event Action JumpKeyPressed; 
 
-    public float HorizontalInput {  get; private set; }
+    public float HorizontalRaw {  get; private set; }
 
     private void Update()
     {
-        HorizontalInput = Input.GetAxisRaw(Horizontal);
+        HorizontalRaw = Input.GetAxisRaw(Horizontal);
 
         if (Input.GetKeyDown(KeyCode.W))
         {

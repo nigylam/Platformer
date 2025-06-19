@@ -73,7 +73,7 @@ AnimatorStateMachine:
   m_ExitPosition: {x: 80, y: 230, z: 0}
   m_ParentStateMachinePosition: {x: 800, y: 20, z: 0}
   m_DefaultState: {fileID: -2700553956910619951}
---- !u!114 &1335342962510336518
+--- !u!114 &1495168463596726224
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_CorrespondingSourceObject: {fileID: 0}
@@ -132,7 +132,7 @@ AnimatorState:
   m_Transitions:
   - {fileID: 4725437926590964127}
   m_StateMachineBehaviours:
-  - {fileID: 1335342962510336518}
+  - {fileID: 1495168463596726224}
   m_Position: {x: 50, y: 50, z: 0}
   m_IKOnFeet: 0
   m_WriteDefaultValues: 1

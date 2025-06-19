@@ -8,27 +8,31 @@ public class CharacterAnimations : MonoBehaviour
     private readonly int FloatVelocityX = Animator.StringToHash("VelocityX");
     private readonly int BoolIsGrounded = Animator.StringToHash("IsGrounded");
 
-    [SerializeField] private CharacterMovement _controller;
-    [SerializeField] private CharacterCollisions _collides;
-    [SerializeField] private Character _character;
     [SerializeField] private Animator Animator;
+
+    private Character _character;
+
+    private void Awake()
+    {
+        _character = GetComponent<Character>();
+    }
 
     private void Update()
     {
-        Animator.SetBool(BoolIsGrounded, _controller.IsGrounded());
-        Animator.SetFloat(FloatVelocityY, _controller.RigidbodyVelocityY);
-        Animator.SetFloat(FloatVelocityX, Mathf.Abs(_controller.RigidbodyVelocityX));
+        Animator.SetBool(BoolIsGrounded, _character.GroundChecker.IsGrounded());
+        Animator.SetFloat(FloatVelocityY, _character.Movement.RigidbodyVelocityY);
+        Animator.SetFloat(FloatVelocityX, Mathf.Abs(_character.Movement.RigidbodyVelocityX));
     }
 
     private void OnEnable()
     {
-        _collides.Damaged += SetDamaged;
+        _character.Collisions.Damaged += SetDamaged;
         _character.Respawned += SetRespawned;
     }
 
     private void OnDisable()
     {
-        _collides.Damaged -= SetDamaged;
+        _character.Collisions.Damaged -= SetDamaged;
         _character.Respawned -= SetRespawned;
     }
 

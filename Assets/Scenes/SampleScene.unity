@@ -3951,6 +3951,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1115246815}
+  - component: {fileID: 1115246816}
   m_Layer: 0
   m_Name: GroundCheck
   m_TagString: Untagged
@@ -3973,6 +3974,22 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1414571812}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1115246816
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1115246814}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ba59645935214ad48ab81ac6943afa02, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _groundLayer:
+    serializedVersion: 2
+    m_Bits: 64
+  radius: 0.2
 --- !u!1 &1252116944
 GameObject:
   m_ObjectHideFlags: 0
@@ -4383,6 +4400,7 @@ GameObject:
   - component: {fileID: 1414571822}
   - component: {fileID: 1414571823}
   - component: {fileID: 1414571824}
+  - component: {fileID: 1414571825}
   m_Layer: 0
   m_Name: Character
   m_TagString: Untagged
@@ -4533,14 +4551,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _rigidbody: {fileID: 1414571814}
-  _groundCheck: {fileID: 1115246815}
-  _groundLayer:
-    serializedVersion: 2
-    m_Bits: 64
-  _character: {fileID: 1414571821}
-  _collides: {fileID: 1414571824}
-  _game: {fileID: 2117022868}
-  _userInput: {fileID: 2117022870}
   _jumpForce: 10
   _speed: 10
 --- !u!95 &1414571817
@@ -4576,9 +4586,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8433602f6a6b3ad4f8b516b7f681ba23, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _controller: {fileID: 1414571815}
-  _collides: {fileID: 1414571824}
-  _character: {fileID: 1414571821}
   Animator: {fileID: 1414571817}
 --- !u!114 &1414571821
 MonoBehaviour:
@@ -4593,9 +4600,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _animationController: {fileID: 1414571820}
-  _controller: {fileID: 1414571815}
-  _collides: {fileID: 1414571824}
+  _movement: {fileID: 1414571815}
+  _collisions: {fileID: 1414571824}
   _game: {fileID: 2117022868}
+  _userInput: {fileID: 2117022870}
+  _groundChecker: {fileID: 1115246816}
 --- !u!114 &1414571822
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4611,9 +4620,6 @@ MonoBehaviour:
   _audiosource: {fileID: 1414571823}
   _audioJump: {fileID: 8300000, guid: 694a7f85c8dece94ab4cfbb30c6a6c6a, type: 3}
   _audioDamage: {fileID: 8300000, guid: e084a4782fb65c1469080d42cf06db84, type: 3}
-  _controller: {fileID: 1414571815}
-  _collides: {fileID: 1414571824}
-  _character: {fileID: 1414571821}
 --- !u!82 &1414571823
 AudioSource:
   m_ObjectHideFlags: 0
@@ -4720,6 +4726,18 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 6dede82d6dba9074390edc2f9fae28b9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &1414571825
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1414571810}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cd23ce46a9267f64c98f4e066fbd419f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &1431945615
@@ -6122,18 +6140,17 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _character: {fileID: 1414571821}
-  _characterCollides: {fileID: 1414571824}
+  _characterCollisions: {fileID: 1414571824}
   _gameEnd: {fileID: 1431945615}
   _gameEndText: {fileID: 752889164}
   _gemsCounter: {fileID: 931464788}
+  _characterMovement: {fileID: 1414571815}
   _gemsFree:
   - {fileID: 1670503569}
   - {fileID: 1863127226}
   _gemsEnemy:
   - {fileID: 1252116946}
   - {fileID: 813205122}
-  _gemsMax: 2
-  _currentGems: 0
 --- !u!4 &2117022869
 Transform:
   m_ObjectHideFlags: 0

@@ -6,18 +6,21 @@ public class CharacterSounds : MonoBehaviour
     [SerializeField] private AudioSource _audiosource;
     [SerializeField] private AudioClip _audioJump;
     [SerializeField] private AudioClip _audioDamage;
-    [SerializeField] private CharacterMovement _controller;
-    [SerializeField] private CharacterCollisions _collides;
-    [SerializeField] private Character _character;
 
-    private WaitUntil _waitForDisable;
     private float _volume = 1;
+    private WaitUntil _waitForDisable;
     private Coroutine _disableSound;
+    private Character _character;
+
+    private void Awake()
+    {
+        _character = GetComponent<Character>();
+    }
 
     private void OnEnable()
     {
         _character.Dead += DisableSound;
-        _controller.Jumped += PlayJumpSound;
+        _character.Movement.Jumped += PlayJumpSound;
         _character.Respawned += EnableSound;
 
         _waitForDisable = new WaitUntil(() => _audiosource.isPlaying == false);
@@ -27,7 +30,7 @@ public class CharacterSounds : MonoBehaviour
     {
         _character.Dead -= DisableSound;
         _character.Respawned -= EnableSound;
-        _controller.Jumped -= PlayJumpSound;
+        _character.Movement.Jumped -= PlayJumpSound;
     }
 
     private IEnumerator DisableSoundAfterDelay()

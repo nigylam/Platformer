@@ -5,12 +5,6 @@ public class CharacterMovement : MonoBehaviour
 {
     [Header("Ссылки на компоненты")]
     [SerializeField] private Rigidbody2D _rigidbody;
-    [SerializeField] private Transform _groundCheck;
-    [SerializeField] private LayerMask _groundLayer;
-    [SerializeField] private CharacterCollisions _collisions;
-    [SerializeField] private Game _game;
-    [SerializeField] private UserInput _userInput;
-    [SerializeField] private Character _character;
 
     [Header("Характеристики передвижения")]
     [SerializeField] private float _jumpForce;
@@ -21,43 +15,52 @@ public class CharacterMovement : MonoBehaviour
     public float RigidbodyVelocityY { get => _rigidbody.velocity.y; }
     public float RigidbodyVelocityX { get => _rigidbody.velocity.x; }
 
-    private float _horizontal;
-    private bool _isFacingRight = true;
     private bool _canDoSecondJump = true;
     private bool _isDisable = false;
     private Vector2 _startPosition;
+    private Character _character;
+
+    private void Awake()
+    {
+        _character = GetComponent<Character>();
+    }
 
     private void Start()
     {
         _startPosition = transform.position;
     }
 
-    private void Update()
-    {
-        Move();
-    }
-
     private void FixedUpdate()
     {
         if (_isDisable == false)
-            _rigidbody.velocity = new Vector2(_horizontal * _speed, _rigidbody.velocity.y);
+            _rigidbody.velocity = new Vector2(_character.UserInput.HorizontalRaw * _speed, _rigidbody.velocity.y);
     }
 
     private void OnEnable()
     {
-        _userInput.JumpKeyPressed += Jump;
+        _character.UserInput.JumpKeyPressed += Jump;
         _character.Dead += SetDisable;
         _character.Respawned += SetEnable;
-        _game.Won += SetDisable;
-        _collisions.JumpEnemy += JumpEnemy;
+        _character.Collisions.JumpEnemy += JumpEnemy;
     }
 
     private void OnDisable()
     {
         _character.Dead -= SetDisable;
         _character.Respawned += SetEnable;
-        _game.Won -= SetDisable;
-        _collisions.JumpEnemy -= JumpEnemy;
+        _character.Collisions.JumpEnemy -= JumpEnemy;
+    }
+
+    public void SetDisable()
+    {
+        _isDisable = true;
+        _rigidbody.velocity = new Vector2(0, _rigidbody.velocity.y);
+    }
+
+    public void SetEnable()
+    {
+        _isDisable = false;
+        transform.position = _startPosition;
     }
 
     private void JumpEnemy()
@@ -65,53 +68,15 @@ public class CharacterMovement : MonoBehaviour
         _rigidbody.velocity = new Vector2(_rigidbody.velocity.x, _jumpForce);
     }
 
-    private void SetDisable()
-    {
-        _isDisable = true;
-        _rigidbody.velocity = new Vector2(0, _rigidbody.velocity.y);
-    }
-
-    private void SetEnable()
-    {
-        _isDisable = false;
-        transform.position = _startPosition;
-    }
-
-    public bool IsGrounded()
-    {
-        float radius = 0.2f;
-
-        return Physics2D.OverlapCircle(_groundCheck.position, radius, _groundLayer);
-    }
-
     private void Jump()
     {
         if (CanJump() && _isDisable == false)
         {
             Jumped?.Invoke();
-
-            _canDoSecondJump = IsGrounded();
-
+            _canDoSecondJump = _character.GroundChecker.IsGrounded();
             _rigidbody.velocity = new Vector2(_rigidbody.velocity.x, _jumpForce);
         }
     }
 
-    private bool CanJump() => IsGrounded() || _canDoSecondJump;
-
-    private void Move()
-    {
-        Flip();
-        _horizontal = _userInput.HorizontalInput;
-    }
-
-    private void Flip()
-    {
-        if (_isFacingRight && _horizontal < 0 || _isFacingRight == false && _horizontal > 0)
-        {
-            _isFacingRight = !_isFacingRight;
-            Vector2 localScale = transform.localScale;
-            localScale.x *= -1f;
-            transform.localScale = localScale;
-        }
-    }
+    private bool CanJump() => _character.GroundChecker.IsGrounded() || _canDoSecondJump;
 }
