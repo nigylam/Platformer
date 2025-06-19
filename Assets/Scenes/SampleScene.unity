@@ -4540,8 +4540,9 @@ MonoBehaviour:
   _character: {fileID: 1414571821}
   _collides: {fileID: 1414571824}
   _game: {fileID: 2117022868}
-  _speed: 10
+  _userInput: {fileID: 2117022870}
   _jumpForce: 10
+  _speed: 10
 --- !u!95 &1414571817
 Animator:
   serializedVersion: 5
@@ -6100,6 +6101,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2117022869}
   - component: {fileID: 2117022868}
+  - component: {fileID: 2117022870}
   m_Layer: 0
   m_Name: Game
   m_TagString: Untagged
@@ -6147,6 +6149,18 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &2117022870
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2117022867}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8c97857532e05314b87b051f6cb4f3a1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &2129701759
 GameObject:
   m_ObjectHideFlags: 0

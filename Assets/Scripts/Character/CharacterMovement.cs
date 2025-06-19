@@ -3,17 +3,18 @@ using UnityEngine;
 
 public class CharacterMovement : MonoBehaviour
 {
-    private const string Horizontal = nameof(Horizontal);
-    private const string Vertical = nameof(Vertical);
-
+    [Header("Ссылки на компоненты")]
     [SerializeField] private Rigidbody2D _rigidbody;
     [SerializeField] private Transform _groundCheck;
     [SerializeField] private LayerMask _groundLayer;
-    [SerializeField] private Character _character;
-    [SerializeField] private CharacterCollisions _collides;
+    [SerializeField] private CharacterCollisions _collisions;
     [SerializeField] private Game _game;
-    [SerializeField] private float _speed;
+    [SerializeField] private UserInput _userInput;
+    [SerializeField] private Character _character;
+
+    [Header("Характеристики передвижения")]
     [SerializeField] private float _jumpForce;
+    [SerializeField] private float _speed;
 
     public event Action Jumped;
 
@@ -34,8 +35,6 @@ public class CharacterMovement : MonoBehaviour
     private void Update()
     {
         Move();
-        Jump();
-        Flip();
     }
 
     private void FixedUpdate()
@@ -46,10 +45,11 @@ public class CharacterMovement : MonoBehaviour
 
     private void OnEnable()
     {
+        _userInput.JumpKeyPressed += Jump;
         _character.Dead += SetDisable;
         _character.Respawned += SetEnable;
         _game.Won += SetDisable;
-        _collides.JumpEnemy += JumpEnemy;
+        _collisions.JumpEnemy += JumpEnemy;
     }
 
     private void OnDisable()
@@ -57,7 +57,7 @@ public class CharacterMovement : MonoBehaviour
         _character.Dead -= SetDisable;
         _character.Respawned += SetEnable;
         _game.Won -= SetDisable;
-        _collides.JumpEnemy -= JumpEnemy;
+        _collisions.JumpEnemy -= JumpEnemy;
     }
 
     private void JumpEnemy()
@@ -86,7 +86,7 @@ public class CharacterMovement : MonoBehaviour
 
     private void Jump()
     {
-        if (Input.GetKeyDown(KeyCode.W) && CanJump() && _isDisable == false)
+        if (CanJump() && _isDisable == false)
         {
             Jumped?.Invoke();
 
@@ -100,7 +100,8 @@ public class CharacterMovement : MonoBehaviour
 
     private void Move()
     {
-        _horizontal = Input.GetAxisRaw(Horizontal);
+        Flip();
+        _horizontal = _userInput.HorizontalInput;
     }
 
     private void Flip()

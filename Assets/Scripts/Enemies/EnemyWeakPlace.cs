@@ -14,5 +14,7 @@ public class EnemyWeakPlace : MonoBehaviour
             _enemy.Die();
             Dead?.Invoke();
         }
+
+        Vector2 vector = new Vector2(1, 0);
     }
 }
