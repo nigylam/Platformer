@@ -33,12 +33,12 @@ public class CharacterMovement : MonoBehaviour
     private void FixedUpdate()
     {
         if (_isDisable == false)
-            _rigidbody.velocity = new Vector2(_character.UserInput.HorizontalRaw * _speed, _rigidbody.velocity.y);
+            _rigidbody.velocity = new Vector2(UserInput.HorizontalRaw * _speed, _rigidbody.velocity.y);
     }
 
     private void OnEnable()
     {
-        _character.UserInput.JumpKeyPressed += Jump;
+        UserInput.JumpKeyPressed += Jump;
         _character.Dead += SetDisable;
         _character.Respawned += SetEnable;
         _character.Collisions.JumpEnemy += JumpEnemy;

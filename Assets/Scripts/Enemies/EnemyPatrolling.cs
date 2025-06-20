@@ -4,11 +4,11 @@ public class EnemyPatrolling : MonoBehaviour
 {
     [SerializeField] private Transform[] _patrolPoints;
     [SerializeField] private Enemy _enemy;
+    [SerializeField] private Fliper _fliper;
     [SerializeField] private float _closeDistanceToTarget = 2f;
     [SerializeField] private float _speed = 3f;
 
     private float _speedBeforeDeath;
-    private bool _isFacingRight = false;
     private int _currentPatrolPoint = 0;
     private float _horizontalMoving = -1;
 
@@ -42,7 +42,6 @@ public class EnemyPatrolling : MonoBehaviour
     private void Update()
     {
         Patrolling();
-        Flip();
     }
 
     private void Patrolling()
@@ -53,6 +52,8 @@ public class EnemyPatrolling : MonoBehaviour
             _horizontalMoving = Mathf.Clamp(_patrolPoints[_currentPatrolPoint].position.x - transform.position.x, -1, 1);
         }
 
+        _fliper.SetHorizontalMoving(_horizontalMoving);
+
         Move();
     }
 
@@ -60,16 +61,4 @@ public class EnemyPatrolling : MonoBehaviour
     {
         transform.Translate(_horizontalMoving * _speed * Time.deltaTime, 0f, 0f);
     }
-
-    private void Flip()
-    {
-        if (_isFacingRight && _horizontalMoving < 0 || _isFacingRight == false && _horizontalMoving > 0)
-        {
-            _isFacingRight = !_isFacingRight;
-            Vector2 localScale = transform.localScale;
-            localScale.x *= -1f;
-            transform.localScale = localScale;
-        }
-    }
-
 }

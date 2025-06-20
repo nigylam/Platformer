@@ -6,9 +6,9 @@ public class UserInput : MonoBehaviour
     private const string Horizontal = nameof(Horizontal);
     private const string Vertical = nameof(Vertical);
 
-    public event Action JumpKeyPressed; 
+    public static event Action JumpKeyPressed; 
 
-    public float HorizontalRaw {  get; private set; }
+    public static float HorizontalRaw {  get; private set; }
 
     private void Update()
     {

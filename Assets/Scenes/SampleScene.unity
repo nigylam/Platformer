@@ -3531,6 +3531,7 @@ GameObject:
   - component: {fileID: 878106703}
   - component: {fileID: 878106704}
   - component: {fileID: 878106705}
+  - component: {fileID: 878106706}
   m_Layer: 0
   m_Name: Enemy (1)
   m_TagString: Untagged
@@ -3589,8 +3590,22 @@ MonoBehaviour:
   - {fileID: 2129701760}
   - {fileID: 371489420}
   _enemy: {fileID: 878106704}
+  _fliper: {fileID: 878106706}
   _closeDistanceToTarget: 2
   _speed: 2
+--- !u!114 &878106706
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 878106702}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cd23ce46a9267f64c98f4e066fbd419f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _isFacingRight: 0
 --- !u!1 &931464786
 GameObject:
   m_ObjectHideFlags: 0
@@ -3736,6 +3751,7 @@ GameObject:
   - component: {fileID: 1079992442}
   - component: {fileID: 1079992443}
   - component: {fileID: 1079992444}
+  - component: {fileID: 1079992445}
   m_Layer: 0
   m_Name: Enemy
   m_TagString: Untagged
@@ -3794,8 +3810,22 @@ MonoBehaviour:
   - {fileID: 287536248}
   - {fileID: 1434586302}
   _enemy: {fileID: 1079992443}
+  _fliper: {fileID: 1079992445}
   _closeDistanceToTarget: 1
   _speed: 2
+--- !u!114 &1079992445
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1079992440}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cd23ce46a9267f64c98f4e066fbd419f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _isFacingRight: 0
 --- !u!1 &1112395244
 GameObject:
   m_ObjectHideFlags: 0
@@ -4395,11 +4425,11 @@ GameObject:
   - component: {fileID: 1414571817}
   - component: {fileID: 1414571814}
   - component: {fileID: 1414571813}
+  - component: {fileID: 1414571823}
   - component: {fileID: 1414571821}
   - component: {fileID: 1414571815}
   - component: {fileID: 1414571820}
   - component: {fileID: 1414571822}
-  - component: {fileID: 1414571823}
   - component: {fileID: 1414571824}
   - component: {fileID: 1414571825}
   m_Layer: 0
@@ -4605,7 +4635,7 @@ MonoBehaviour:
   _collisions: {fileID: 1414571824}
   _userInput: {fileID: 2117022870}
   _groundChecker: {fileID: 1115246816}
-  _game: {fileID: 2117022868}
+  _fliper: {fileID: 1414571825}
 --- !u!114 &1414571822
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4741,6 +4771,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cd23ce46a9267f64c98f4e066fbd419f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _isFacingRight: 1
 --- !u!1 &1431945615
 GameObject:
   m_ObjectHideFlags: 0

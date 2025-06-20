@@ -8,7 +8,7 @@ public class Character : MonoBehaviour
     [SerializeField] private CharacterCollisions _collisions;
     [SerializeField] private UserInput _userInput;
     [SerializeField] private GroundChecker _groundChecker;
-    [SerializeField] private Game _game;
+    [SerializeField] private Fliper _fliper;
 
     public event Action Dead;
     public event Action Respawned;
@@ -17,6 +17,11 @@ public class Character : MonoBehaviour
     public GroundChecker GroundChecker => _groundChecker;
     public CharacterCollisions Collisions => _collisions;
     public CharacterMovement Movement => _movement;
+
+    private void Update()
+    {
+        _fliper.SetHorizontalMoving(UserInput.HorizontalRaw);
+    }
 
     private void OnEnable()
     {
