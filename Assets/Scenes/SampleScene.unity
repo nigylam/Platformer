@@ -3572,6 +3572,7 @@ MonoBehaviour:
   _weekPlaceCollider: {fileID: 2021791713}
   _gemReward: {fileID: 813205122}
   _dieSound: {fileID: 1112395247}
+  _dieClip: {fileID: 7400000, guid: b8b088c814fcb0b49b37f88c43872016, type: 2}
 --- !u!114 &878106705
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3776,6 +3777,7 @@ MonoBehaviour:
   _weekPlaceCollider: {fileID: 8440848}
   _gemReward: {fileID: 1252116946}
   _dieSound: {fileID: 1112395247}
+  _dieClip: {fileID: 7400000, guid: b8b088c814fcb0b49b37f88c43872016, type: 2}
 --- !u!114 &1079992444
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3827,7 +3829,6 @@ MonoBehaviour:
   _enemies:
   - {fileID: 1079992443}
   - {fileID: 878106704}
-  _game: {fileID: 2117022868}
 --- !u!4 &1112395246
 Transform:
   m_ObjectHideFlags: 0
@@ -4602,9 +4603,9 @@ MonoBehaviour:
   _animationController: {fileID: 1414571820}
   _movement: {fileID: 1414571815}
   _collisions: {fileID: 1414571824}
-  _game: {fileID: 2117022868}
   _userInput: {fileID: 2117022870}
   _groundChecker: {fileID: 1115246816}
+  _game: {fileID: 2117022868}
 --- !u!114 &1414571822
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6145,6 +6146,7 @@ MonoBehaviour:
   _gameEndText: {fileID: 752889164}
   _gemsCounter: {fileID: 931464788}
   _characterMovement: {fileID: 1414571815}
+  _enemiesRespawner: {fileID: 1112395245}
   _gemsFree:
   - {fileID: 1670503569}
   - {fileID: 1863127226}

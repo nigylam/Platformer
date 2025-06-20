@@ -6,9 +6,9 @@ public class Character : MonoBehaviour
     [SerializeField] private CharacterAnimations _animationController;
     [SerializeField] private CharacterMovement _movement;
     [SerializeField] private CharacterCollisions _collisions;
-    [SerializeField] private Game _game;
     [SerializeField] private UserInput _userInput;
     [SerializeField] private GroundChecker _groundChecker;
+    [SerializeField] private Game _game;
 
     public event Action Dead;
     public event Action Respawned;
@@ -21,13 +21,11 @@ public class Character : MonoBehaviour
     private void OnEnable()
     {
         _collisions.Damaged += SetDead;
-        _game.Restarted += Respawn;
     }
 
     private void OnDisable()
     {
         _collisions.Damaged -= SetDead;
-        _game.Restarted -= Respawn;
     }
 
     private void SetDead()

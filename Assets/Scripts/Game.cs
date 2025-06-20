@@ -10,13 +10,13 @@ public class Game : MonoBehaviour
     [SerializeField] private TextMeshProUGUI _gameEndText;
     [SerializeField] private TextMeshProUGUI _gemsCounter;
     [SerializeField] private CharacterMovement _characterMovement;
+    [SerializeField] private EnemiesRespawner _enemiesRespawner;
     [SerializeField] private Gem[] _gemsFree;
     [SerializeField] private Gem[] _gemsEnemy;
 
     private int _gemsMax;
     private int _currentGems;
 
-    public event Action Restarted;
     public event Action Won;
 
     private void Start()
@@ -94,7 +94,7 @@ public class Game : MonoBehaviour
 
         _currentGems = 0;
         _gameEnd.SetActive(false);
-
-        Restarted?.Invoke();
+        _character.Respawn();
+        _enemiesRespawner.Respawn();
     }
 }

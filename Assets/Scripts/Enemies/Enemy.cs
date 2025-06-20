@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using UnityEngine;
 
 public class Enemy : MonoBehaviour
@@ -10,11 +11,19 @@ public class Enemy : MonoBehaviour
     [SerializeField] private Collider2D _weekPlaceCollider;
     [SerializeField] private Gem _gemReward;
     [SerializeField] private AudioSource _dieSound;
+    [SerializeField] private AnimationClip _dieClip;
 
     public event Action Dead;
     public event Action Respawned;
 
     public float JumpPadForce { get; private set; } = 3f;
+
+    private WaitForSeconds _dieAnimationDelay;
+
+    private void Awake()
+    {
+        _dieAnimationDelay = new WaitForSeconds(_dieClip.length);
+    }
 
     public void Die()
     {
@@ -22,12 +31,14 @@ public class Enemy : MonoBehaviour
         _dieSound.Play();
         SpawnReward();
         _animator.Play(DieAnimation);
+        StartCoroutine(DisableEnemySpriteAfterDelay());
         Dead?.Invoke();
     }
 
     public void Respawn()
     {
         gameObject.SetActive(true);
+        _animator.enabled = true;
         _bodyCollider.enabled = true;
         _weekPlaceCollider.enabled = true;
         Respawned?.Invoke();
@@ -37,5 +48,12 @@ public class Enemy : MonoBehaviour
     {
         _gemReward.gameObject.SetActive(true);
         _gemReward.transform.position = transform.position;
+    }
+
+    private IEnumerator DisableEnemySpriteAfterDelay()
+    {
+        yield return _dieAnimationDelay;
+        _animator.enabled = false;
+        gameObject.SetActive(false);
     }
 }
