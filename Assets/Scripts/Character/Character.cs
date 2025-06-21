@@ -13,6 +13,8 @@ public class Character : MonoBehaviour
     public event Action Dead;
     public event Action Respawned;
 
+    public bool IsDead { get; private set; } = false;
+
     public UserInput UserInput => _userInput;
     public GroundChecker GroundChecker => _groundChecker;
     public CharacterCollisions Collisions => _collisions;
@@ -36,10 +38,12 @@ public class Character : MonoBehaviour
     private void SetDead()
     {
         Dead?.Invoke();
+        IsDead = true;
     }
 
     public void Respawn()
     {
         Respawned?.Invoke();
+        IsDead = false;
     }
 }
