@@ -1,100 +1,113 @@
 using System;
 using UnityEngine;
 using TMPro;
+using System.Collections;
 
+[RequireComponent(typeof(AudioSource))]
 public class Game : MonoBehaviour
 {
-    [SerializeField] private Character _character;
-    [SerializeField] private CharacterCollisions _characterCollisions;
-    [SerializeField] private GameObject _gameEnd;
-    [SerializeField] private TextMeshProUGUI _gameEndText;
-    [SerializeField] private TextMeshProUGUI _gemsCounter;
-    [SerializeField] private CharacterMovement _characterMovement;
-    [SerializeField] private EnemiesRespawner _enemiesRespawner;
-    [SerializeField] private Gem[] _gemsFree;
-    [SerializeField] private Gem[] _gemsEnemy;
+    [Header("Character stats")]
+    [SerializeField] private int _characterStartHealth;
+    [SerializeField] private int _characterMaxHealth;
 
+    [Header("Links")]
+    [SerializeField] private Character _character;
+    [SerializeField] private Enemies _enemies;
+    [SerializeField] private CollectableSpawner _gemSpawner;
+    [SerializeField] private CollectableSpawner _healingSpawner;
+
+    public int GemsMax => _gemsMax;
+
+    private AudioSource _audioSource;
+
+    private int _characterHealth;
     private int _gemsMax;
-    private int _currentGems;
+    private int _gemsCount;
+    private bool _isGameOver = false;
+
 
     public event Action Won;
+    public event Action Over;
+    public event Action<int> GemsCountChanged;
+    public event Action Restarted;
+
+    private void Awake()
+    {
+        _audioSource = GetComponent<AudioSource>();
+    }
 
     private void Start()
     {
-        _currentGems = 0;
-        _gemsMax = _gemsFree.Length + _gemsEnemy.Length;
-        HideRewardGems();
+        Restart();
     }
 
     private void Update()
     {
-        _gemsCounter.text = $"{_currentGems}/{_gemsMax}";
+        if (_characterHealth == 0 && _isGameOver == false)
+        {
+            _isGameOver = true;
+            End(false);
+            return;
+        }
 
-        if (_currentGems == _gemsMax)
-            Win();
+        if (_gemsCount == _gemsMax)
+            End(true);
     }
 
     private void OnEnable()
     {
-        _character.Dead += GameOver;
-        _characterCollisions.GemCollected += CollectGem;
+        _character.Collisions.Damaged += GetDamage;
+        _character.Collisions.GemCollected += CollectGem;
+        _character.Collisions.HealingCollected += CollectHealing;
     }
 
     private void OnDisable()
     {
-        _character.Dead -= GameOver;
-        _characterCollisions.GemCollected -= CollectGem;
-    }
-
-    private void Win()
-    {
-        GameEnd(true);
-        Won?.Invoke();
-    }
-
-    private void GameOver()
-    {
-        GameEnd(false);
-    }
-
-    private void GameEnd(bool isWin)
-    {
-        _gameEnd.SetActive(true);
-        _characterMovement.SetDisable();
-
-        if (isWin)
-        {
-            _gameEndText.text = "You win!";
-            _gameEndText.color = Color.green;
-        }
-        else
-        {
-            _gameEndText.text = "Game over!";
-            _gameEndText.color = Color.red;
-        }
-    }
-
-    private void HideRewardGems()
-    {
-        foreach (Gem gem in _gemsEnemy)
-            gem.gameObject.SetActive(false);
-    }
-
-    public void CollectGem()
-    {
-        _currentGems++;
+        _character.Collisions.Damaged -= GetDamage;
+        _character.Collisions.GemCollected -= CollectGem;
+        _character.Collisions.HealingCollected -= CollectHealing;
     }
 
     public void Restart()
     {
-        foreach (Gem gem in _gemsFree)
-            gem.gameObject.SetActive(true);
-
-        HideRewardGems();
-
-        _currentGems = 0;
-        _gameEnd.SetActive(false);
+        _gemSpawner.Despawn();
+        _healingSpawner.Despawn();
+        _characterHealth = _characterStartHealth;
+        _gemsCount = 0;
+        _gemsMax = _gemSpawner.Count + _enemies.Count;
+        _isGameOver = false;
+        Restarted?.Invoke();
         _character.Respawn();
-        _enemiesRespawner.Respawn();
+        _enemies.Respawn();
+        _gemSpawner.Spawn();
+        _healingSpawner.Spawn();
+    }
+
+    private void End(bool isWin)
+    {
+        _character.SetDisable();
+
+        if(isWin) 
+            Won?.Invoke();
+        else
+            Over?.Invoke();
+    }
+
+    private void CollectGem()
+    {
+        _gemsCount++;
+        GemsCountChanged?.Invoke(_gemsCount);
+        _gemSpawner.Sounds.Play();
+    }
+
+    private void CollectHealing()
+    {
+        _characterHealth++;
+        _healingSpawner.Sounds.Play();
+    }
+
+    private void GetDamage()
+    {
+        _characterHealth--;
     }
 }

@@ -5,17 +5,21 @@ public class CharacterCollisions : MonoBehaviour
 {
     public event Action Damaged;
     public event Action GemCollected;
+    public event Action HealingCollected;
     public event Action JumpEnemy;
 
     private void OnTriggerEnter2D(Collider2D other)
     {
-        if (other.gameObject.TryGetComponent<Gem>(out Gem gem))
+        if (other.gameObject.TryGetComponent(out Gem gem))
             GemCollected?.Invoke();
 
-        if (other.gameObject.TryGetComponent<EnemyBody>(out EnemyBody enemyBody))
+        if (other.gameObject.TryGetComponent(out Healing healing))
+            HealingCollected?.Invoke();
+
+        if (other.gameObject.TryGetComponent(out EnemyBody enemyBody))
             Damaged?.Invoke();
 
-        if (other.gameObject.TryGetComponent<EnemyWeakPlace>(out EnemyWeakPlace enemyWeak))
+        if (other.gameObject.TryGetComponent(out EnemyWeakPlace enemyWeak))
             JumpEnemy?.Invoke();
     }
 }

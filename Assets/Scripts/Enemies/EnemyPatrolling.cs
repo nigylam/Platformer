@@ -3,7 +3,6 @@ using UnityEngine;
 public class EnemyPatrolling : MonoBehaviour
 {
     [SerializeField] private Character _character;
-    [SerializeField] private Fliper _fliper;
     [SerializeField] private float _closeDistanceToTarget = 2f;
     [SerializeField] private float _speed = 3f;
     [SerializeField] private float _pursuingDistance = 6f;
@@ -12,6 +11,7 @@ public class EnemyPatrolling : MonoBehaviour
 
     [SerializeField] private Vector2 _currentDestination;
 
+    private Fliper _fliper;
     private Enemy _enemy;
     private float _speedBeforeDeath;
     private int _currentPatrolPoint = 0;
@@ -20,6 +20,7 @@ public class EnemyPatrolling : MonoBehaviour
 
     private void Awake()
     {
+        _fliper = GetComponent<Fliper>();
         _enemy = GetComponent<Enemy>();
         _currentDestination = _patrolPoints[_currentPatrolPoint].position;
         _startPosition = transform.position;
@@ -77,7 +78,7 @@ public class EnemyPatrolling : MonoBehaviour
     private bool CharacterIsNear()
     {
         return Mathf.Abs(_character.transform.position.y - transform.position.y) <= _pursuingVerticalDistance &&
-            Vector2.Distance(_character.transform.position, transform.position) <= _pursuingDistance && _character.IsDead == false;
+            Vector2.Distance(_character.transform.position, transform.position) <= _pursuingDistance && _character.IsDisable == false;
     }
 
     private void Move()

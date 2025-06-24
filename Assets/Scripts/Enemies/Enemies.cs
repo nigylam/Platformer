@@ -1,8 +1,10 @@
 using UnityEngine;
 
-public class EnemiesRespawner : MonoBehaviour
+public class Enemies : MonoBehaviour
 {
     [SerializeField] private Enemy[] _enemies;
+
+    public int Count => _enemies.Length;
 
     public void Respawn()
     {

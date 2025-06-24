@@ -19,7 +19,7 @@ public class CharacterSounds : MonoBehaviour
 
     private void OnEnable()
     {
-        _character.Dead += DisableSound;
+        _character.Disable += DisableSound;
         _character.Movement.Jumped += PlayJumpSound;
         _character.Respawned += EnableSound;
 
@@ -28,7 +28,7 @@ public class CharacterSounds : MonoBehaviour
 
     private void OnDisable()
     {
-        _character.Dead -= DisableSound;
+        _character.Disable -= DisableSound;
         _character.Respawned -= EnableSound;
         _character.Movement.Jumped -= PlayJumpSound;
     }

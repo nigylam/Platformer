@@ -3,17 +3,17 @@ using UnityEngine;
 
 public class Character : MonoBehaviour
 {
-    [SerializeField] private CharacterAnimations _animationController;
+    [SerializeField] private CharacterAnimations _animations;
     [SerializeField] private CharacterMovement _movement;
     [SerializeField] private CharacterCollisions _collisions;
     [SerializeField] private UserInput _userInput;
     [SerializeField] private GroundChecker _groundChecker;
     [SerializeField] private Fliper _fliper;
 
-    public event Action Dead;
+    public event Action Disable;
     public event Action Respawned;
 
-    public bool IsDead { get; private set; } = false;
+    public bool IsDisable { get; private set; } = false;
 
     public UserInput UserInput => _userInput;
     public GroundChecker GroundChecker => _groundChecker;
@@ -25,25 +25,15 @@ public class Character : MonoBehaviour
         _fliper.SetHorizontalMoving(UserInput.HorizontalRaw);
     }
 
-    private void OnEnable()
+    public void SetDisable()
     {
-        _collisions.Damaged += SetDead;
-    }
-
-    private void OnDisable()
-    {
-        _collisions.Damaged -= SetDead;
-    }
-
-    private void SetDead()
-    {
-        Dead?.Invoke();
-        IsDead = true;
+        Disable?.Invoke();
+        IsDisable = true;
     }
 
     public void Respawn()
     {
         Respawned?.Invoke();
-        IsDead = false;
+        IsDisable = false;
     }
 }

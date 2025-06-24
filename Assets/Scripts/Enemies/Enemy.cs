@@ -9,7 +9,7 @@ public class Enemy : MonoBehaviour
     [SerializeField] private Animator _animator;
     [SerializeField] private Collider2D _bodyCollider;
     [SerializeField] private Collider2D _weekPlaceCollider;
-    [SerializeField] private Gem _gemReward;
+    [SerializeField] private Collectable _gemReward;
     [SerializeField] private AudioSource _dieSound;
     [SerializeField] private AnimationClip _dieClip;
 
