@@ -1,7 +1,5 @@
 using System;
 using UnityEngine;
-using TMPro;
-using System.Collections;
 
 [RequireComponent(typeof(AudioSource))]
 public class Game : MonoBehaviour
@@ -18,23 +16,17 @@ public class Game : MonoBehaviour
 
     public int GemsMax => _gemsMax;
 
-    private AudioSource _audioSource;
 
     private int _characterHealth;
     private int _gemsMax;
     private int _gemsCount;
-    private bool _isGameOver = false;
+    private bool _isGameEnd = false;
 
 
     public event Action Won;
     public event Action Over;
     public event Action<int> GemsCountChanged;
     public event Action Restarted;
-
-    private void Awake()
-    {
-        _audioSource = GetComponent<AudioSource>();
-    }
 
     private void Start()
     {
@@ -43,15 +35,18 @@ public class Game : MonoBehaviour
 
     private void Update()
     {
-        if (_characterHealth == 0 && _isGameOver == false)
+        if (_characterHealth == 0 && _isGameEnd == false)
         {
-            _isGameOver = true;
+            _isGameEnd = true;
             End(false);
             return;
         }
 
-        if (_gemsCount == _gemsMax)
+        if (_gemsCount == _gemsMax && _isGameEnd == false)
+        {
+            _isGameEnd = true;
             End(true);
+        }
     }
 
     private void OnEnable()
@@ -59,6 +54,7 @@ public class Game : MonoBehaviour
         _character.Collisions.Damaged += GetDamage;
         _character.Collisions.GemCollected += CollectGem;
         _character.Collisions.HealingCollected += CollectHealing;
+        _enemies.Dead += SpawnReward;
     }
 
     private void OnDisable()
@@ -75,7 +71,7 @@ public class Game : MonoBehaviour
         _characterHealth = _characterStartHealth;
         _gemsCount = 0;
         _gemsMax = _gemSpawner.Count + _enemies.Count;
-        _isGameOver = false;
+        _isGameEnd = false;
         Restarted?.Invoke();
         _character.Respawn();
         _enemies.Respawn();
@@ -85,12 +81,18 @@ public class Game : MonoBehaviour
 
     private void End(bool isWin)
     {
-        _character.SetDisable();
 
-        if(isWin) 
+        if (isWin)
+        {
+            _character.SetDisable();
             Won?.Invoke();
+        }
+
         else
+        {
+            _character.SetDead();
             Over?.Invoke();
+        }
     }
 
     private void CollectGem()
@@ -109,5 +111,10 @@ public class Game : MonoBehaviour
     private void GetDamage()
     {
         _characterHealth--;
+    }
+
+    private void SpawnReward(Vector2 position)
+    {
+        _gemSpawner.SpawnReward(position);
     }
 }

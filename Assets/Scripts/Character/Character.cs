@@ -3,14 +3,14 @@ using UnityEngine;
 
 public class Character : MonoBehaviour
 {
-    [SerializeField] private CharacterAnimations _animations;
-    [SerializeField] private CharacterMovement _movement;
-    [SerializeField] private CharacterCollisions _collisions;
     [SerializeField] private UserInput _userInput;
     [SerializeField] private GroundChecker _groundChecker;
+    [SerializeField] private CharacterMovement _movement;
+    [SerializeField] private CharacterCollisions _collisions;
     [SerializeField] private Fliper _fliper;
 
-    public event Action Disable;
+    public event Action Disabled;
+    public event Action Dead;
     public event Action Respawned;
 
     public bool IsDisable { get; private set; } = false;
@@ -27,13 +27,25 @@ public class Character : MonoBehaviour
 
     public void SetDisable()
     {
-        Disable?.Invoke();
+        Disabled?.Invoke();
+        _collisions.CancelStun();
         IsDisable = true;
+    }
+
+    public void SetDead()
+    {
+        SetDisable();
+        Dead?.Invoke();
     }
 
     public void Respawn()
     {
         Respawned?.Invoke();
         IsDisable = false;
+    }
+
+    public bool IsAvailable()
+    {
+        return IsDisable == false && _collisions.IsStuned == false;
     }
 }

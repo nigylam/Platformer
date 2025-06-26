@@ -39,14 +39,14 @@ public class CharacterMovement : MonoBehaviour
     private void OnEnable()
     {
         UserInput.JumpKeyPressed += Jump;
-        _character.Disable += SetDisable;
+        _character.Disabled += SetDisable;
         _character.Respawned += SetEnable;
         _character.Collisions.JumpEnemy += JumpEnemy;
     }
 
     private void OnDisable()
     {
-        _character.Disable -= SetDisable;
+        _character.Disabled -= SetDisable;
         _character.Respawned += SetEnable;
         _character.Collisions.JumpEnemy -= JumpEnemy;
     }

@@ -2,11 +2,10 @@ using UnityEngine;
 
 public class EnemyBody : MonoBehaviour
 {
-    [SerializeField] private Collider2D _weekPlaceCollider;
+    [SerializeField] private Enemy _enemy;
 
-    private void OnTriggerEnter2D(Collider2D collision)
+    public void OnAnimationEnding()
     {
-        if (collision.gameObject.GetComponent<Character>() != null)
-            _weekPlaceCollider.enabled = false;
+        _enemy.gameObject.SetActive(false);
     }
 }

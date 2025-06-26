@@ -75,4 +75,11 @@ public class CollectableSpawner : MonoBehaviour
 
         _spawned.Clear();
     }
+
+    public void SpawnReward(Vector2 position)
+    {
+        Collectable collectable = _pool.Get();
+        collectable.transform.position = position;
+        _spawned.Add(collectable);
+    }
 }

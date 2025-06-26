@@ -1,5 +1,4 @@
 using System;
-using System.Collections;
 using UnityEngine;
 
 public class Enemy : MonoBehaviour
@@ -9,30 +8,19 @@ public class Enemy : MonoBehaviour
     [SerializeField] private Animator _animator;
     [SerializeField] private Collider2D _bodyCollider;
     [SerializeField] private Collider2D _weekPlaceCollider;
-    [SerializeField] private Collectable _gemReward;
     [SerializeField] private AudioSource _dieSound;
-    [SerializeField] private AnimationClip _dieClip;
 
-    public event Action Dead;
+    public event Action<Vector2> Dead;
     public event Action Respawned;
 
     public float JumpPadForce { get; private set; } = 3f;
 
-    private WaitForSeconds _dieAnimationDelay;
-
-    private void Awake()
-    {
-        _dieAnimationDelay = new WaitForSeconds(_dieClip.length);
-    }
-
     public void Die()
     {
         _bodyCollider.enabled = false;
+        Dead?.Invoke(transform.position);
         _dieSound.Play();
-        SpawnReward();
         _animator.Play(DieAnimation);
-        StartCoroutine(DisableEnemySpriteAfterDelay());
-        Dead?.Invoke();
     }
 
     public void Respawn()
@@ -42,18 +30,5 @@ public class Enemy : MonoBehaviour
         _bodyCollider.enabled = true;
         _weekPlaceCollider.enabled = true;
         Respawned?.Invoke();
-    }
-
-    private void SpawnReward()
-    {
-        _gemReward.gameObject.SetActive(true);
-        _gemReward.transform.position = transform.position;
-    }
-
-    private IEnumerator DisableEnemySpriteAfterDelay()
-    {
-        yield return _dieAnimationDelay;
-        _animator.enabled = false;
-        gameObject.SetActive(false);
     }
 }

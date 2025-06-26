@@ -470,7 +470,7 @@ Transform:
   m_GameObject: {fileID: 340487956}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -7.98, y: -0.88, z: 0}
+  m_LocalPosition: {x: -7.42, y: -0.36, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -728,7 +728,7 @@ Transform:
   m_GameObject: {fileID: 590538115}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 1.22, y: 4.14, z: 0}
+  m_LocalPosition: {x: 1.41, y: 4.57, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -3255,7 +3255,7 @@ Transform:
   m_GameObject: {fileID: 869053069}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 8.13, y: -5.82, z: 0}
+  m_LocalPosition: {x: 8.62, y: -5.33, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -3321,6 +3321,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 6560528025430292462, guid: 4748f78ca38235c4694da243613b5b97, type: 3}
+      propertyPath: _enemy
+      value: 
+      objectReference: {fileID: 138510647}
     - target: {fileID: 7006237858773364321, guid: 4748f78ca38235c4694da243613b5b97, type: 3}
       propertyPath: _dieSound
       value: 
@@ -3329,6 +3333,10 @@ PrefabInstance:
       propertyPath: _gemReward
       value: 
       objectReference: {fileID: 0}
+    - target: {fileID: 7006237858773364321, guid: 4748f78ca38235c4694da243613b5b97, type: 3}
+      propertyPath: _bodyCollider
+      value: 
+      objectReference: {fileID: 923752812}
     - target: {fileID: 7990581797122208932, guid: 4748f78ca38235c4694da243613b5b97, type: 3}
       propertyPath: m_Name
       value: Enemy (1)
@@ -3338,6 +3346,11 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 4748f78ca38235c4694da243613b5b97, type: 3}
+--- !u!61 &923752812 stripped
+BoxCollider2D:
+  m_CorrespondingSourceObject: {fileID: 2487893657693423412, guid: 4748f78ca38235c4694da243613b5b97, type: 3}
+  m_PrefabInstance: {fileID: 923752811}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &931464786
 GameObject:
   m_ObjectHideFlags: 0
@@ -3679,7 +3692,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1115246815}
   - component: {fileID: 1115246816}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: GroundCheck
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -3786,7 +3799,7 @@ GameObject:
   - component: {fileID: 1414571822}
   - component: {fileID: 1414571824}
   - component: {fileID: 1414571825}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Character
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -3971,7 +3984,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8433602f6a6b3ad4f8b516b7f681ba23, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Animator: {fileID: 1414571817}
+  _damageAnimationDuration: 1
 --- !u!114 &1414571821
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3984,11 +3997,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ca8596d419ff430498c62ce3c8e46c42, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _animations: {fileID: 0}
-  _movement: {fileID: 1414571815}
-  _collisions: {fileID: 1414571824}
   _userInput: {fileID: 2117022870}
   _groundChecker: {fileID: 1115246816}
+  _movement: {fileID: 1414571815}
+  _collisions: {fileID: 1414571824}
   _fliper: {fileID: 1414571825}
 --- !u!114 &1414571822
 MonoBehaviour:
@@ -4113,6 +4125,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6dede82d6dba9074390edc2f9fae28b9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _stunedTime: 3
 --- !u!114 &1414571825
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5324,6 +5337,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _characterStartHealth: 2
   _characterMaxHealth: 3
+  _characterHealth: 0
   _character: {fileID: 1414571821}
   _enemies: {fileID: 1112395245}
   _gemSpawner: {fileID: 1969870221}
@@ -5557,6 +5571,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 6560528025430292462, guid: 4748f78ca38235c4694da243613b5b97, type: 3}
+      propertyPath: _enemy
+      value: 
+      objectReference: {fileID: 1079992443}
     - target: {fileID: 7006237858773364321, guid: 4748f78ca38235c4694da243613b5b97, type: 3}
       propertyPath: _dieSound
       value: 
@@ -5565,6 +5583,10 @@ PrefabInstance:
       propertyPath: _gemReward
       value: 
       objectReference: {fileID: 0}
+    - target: {fileID: 7006237858773364321, guid: 4748f78ca38235c4694da243613b5b97, type: 3}
+      propertyPath: _bodyCollider
+      value: 
+      objectReference: {fileID: 922025811614485225}
     - target: {fileID: 7990581797122208932, guid: 4748f78ca38235c4694da243613b5b97, type: 3}
       propertyPath: m_Name
       value: Enemy
@@ -5574,6 +5596,11 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 4748f78ca38235c4694da243613b5b97, type: 3}
+--- !u!61 &922025811614485225 stripped
+BoxCollider2D:
+  m_CorrespondingSourceObject: {fileID: 2487893657693423412, guid: 4748f78ca38235c4694da243613b5b97, type: 3}
+  m_PrefabInstance: {fileID: 922025811614485224}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0

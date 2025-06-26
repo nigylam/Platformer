@@ -19,7 +19,8 @@ public class CharacterSounds : MonoBehaviour
 
     private void OnEnable()
     {
-        _character.Disable += DisableSound;
+        _character.Collisions.Damaged += PlayDamageSound;
+        _character.Disabled += DisableSound;
         _character.Movement.Jumped += PlayJumpSound;
         _character.Respawned += EnableSound;
 
@@ -28,7 +29,8 @@ public class CharacterSounds : MonoBehaviour
 
     private void OnDisable()
     {
-        _character.Disable -= DisableSound;
+        _character.Collisions.Damaged -= PlayDamageSound;
+        _character.Disabled -= DisableSound;
         _character.Respawned -= EnableSound;
         _character.Movement.Jumped -= PlayJumpSound;
     }
@@ -47,7 +49,6 @@ public class CharacterSounds : MonoBehaviour
 
     private void DisableSound()
     {
-        PlayDamageSound();
         _disableSound = StartCoroutine(DisableSoundAfterDelay());
     }
 
