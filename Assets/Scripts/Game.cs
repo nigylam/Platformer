@@ -10,7 +10,7 @@ public class Game : MonoBehaviour
 
     [Header("Links")]
     [SerializeField] private Character _character;
-    [SerializeField] private Enemies _enemies;
+    [SerializeField] private EnemySpawner _enemies;
     [SerializeField] private CollectableSpawner _gemSpawner;
     [SerializeField] private CollectableSpawner _healingSpawner;
 

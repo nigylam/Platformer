@@ -10,46 +10,33 @@ public class CharacterSounds : MonoBehaviour
     private float _volume = 1;
     private WaitUntil _waitForDisable;
     private Coroutine _disableSound;
-    private Character _character;
 
     private void Awake()
     {
-        _character = GetComponent<Character>();
-    }
-
-    private void OnEnable()
-    {
-        _character.Collisions.Damaged += PlayDamageSound;
-        _character.Disabled += DisableSound;
-        _character.Movement.Jumped += PlayJumpSound;
-        _character.Respawned += EnableSound;
-
         _waitForDisable = new WaitUntil(() => _audiosource.isPlaying == false);
     }
 
-    private void OnDisable()
+    public void DisableSound()
     {
-        _character.Collisions.Damaged -= PlayDamageSound;
-        _character.Disabled -= DisableSound;
-        _character.Respawned -= EnableSound;
-        _character.Movement.Jumped -= PlayJumpSound;
+        _disableSound = StartCoroutine(DisableSoundAfterDelay());
     }
 
-    private IEnumerator DisableSoundAfterDelay()
+    public void PlayJumpSound()
     {
-        yield return _waitForDisable;
-
-        _audiosource.volume = 0;
+        _audiosource.clip = _audioJump;
+        _audiosource.Play();
     }
-    private void EnableSound()
+
+    public void PlayDamageSound()
+    {
+        _audiosource.clip = _audioDamage;
+        _audiosource.Play();
+    }
+
+    public void EnableSound()
     {
         StopDisablingSound();
         _audiosource.volume = _volume;
-    }
-
-    private void DisableSound()
-    {
-        _disableSound = StartCoroutine(DisableSoundAfterDelay());
     }
 
     private void StopDisablingSound()
@@ -58,15 +45,10 @@ public class CharacterSounds : MonoBehaviour
             StopCoroutine(_disableSound);
     }
 
-    private void PlayJumpSound()
+    private IEnumerator DisableSoundAfterDelay()
     {
-        _audiosource.clip = _audioJump;
-        _audiosource.Play();
-    }
+        yield return _waitForDisable;
 
-    private void PlayDamageSound()
-    {
-        _audiosource.clip = _audioDamage;
-        _audiosource.Play();
+        _audiosource.volume = 0;
     }
 }

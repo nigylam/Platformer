@@ -1,12 +1,9 @@
 using System;
 using UnityEngine;
 
+[RequireComponent(typeof(Rigidbody2D))]
 public class CharacterMovement : MonoBehaviour
 {
-    [Header("Ссылки на компоненты")]
-    [SerializeField] private Rigidbody2D _rigidbody;
-
-    [Header("Характеристики передвижения")]
     [SerializeField] private float _jumpForce;
     [SerializeField] private float _speed;
 
@@ -18,11 +15,12 @@ public class CharacterMovement : MonoBehaviour
     private bool _canDoSecondJump = true;
     private bool _isDisable = false;
     private Vector2 _startPosition;
-    private Character _character;
+    private Rigidbody2D _rigidbody;
+    private GroundChecker _groundChecker;
 
     private void Awake()
     {
-        _character = GetComponent<Character>();
+        _rigidbody = GetComponent<Rigidbody2D>();
     }
 
     private void Start()
@@ -39,16 +37,16 @@ public class CharacterMovement : MonoBehaviour
     private void OnEnable()
     {
         UserInput.JumpKeyPressed += Jump;
-        _character.Disabled += SetDisable;
-        _character.Respawned += SetEnable;
-        _character.Collisions.JumpEnemy += JumpEnemy;
     }
 
     private void OnDisable()
     {
-        _character.Disabled -= SetDisable;
-        _character.Respawned += SetEnable;
-        _character.Collisions.JumpEnemy -= JumpEnemy;
+        UserInput.JumpKeyPressed -= Jump;
+    }
+
+    public void SetGroundChecker(GroundChecker groundChecker)
+    {
+        _groundChecker = groundChecker;
     }
 
     public void SetDisable()
@@ -63,7 +61,7 @@ public class CharacterMovement : MonoBehaviour
         transform.position = _startPosition;
     }
 
-    private void JumpEnemy()
+    public void JumpEnemy()
     {
         _rigidbody.velocity = new Vector2(_rigidbody.velocity.x, _jumpForce);
     }
@@ -73,10 +71,10 @@ public class CharacterMovement : MonoBehaviour
         if (CanJump() && _isDisable == false)
         {
             Jumped?.Invoke();
-            _canDoSecondJump = _character.GroundChecker.IsGrounded();
+            _canDoSecondJump = _groundChecker.IsGrounded();
             _rigidbody.velocity = new Vector2(_rigidbody.velocity.x, _jumpForce);
         }
     }
 
-    private bool CanJump() => _character.GroundChecker.IsGrounded() || _canDoSecondJump;
+    private bool CanJump() => _groundChecker.IsGrounded() || _canDoSecondJump;
 }

@@ -14,52 +14,36 @@ public class CharacterAnimations : MonoBehaviour
 
     private WaitForSeconds _damageAnimationDurationWait;
 
-    private Character _character;
     private Animator _animator;
     private Coroutine _setDamagedStop;
 
     private void Awake()
     {
-        _character = GetComponent<Character>();
         _animator = GetComponent<Animator>();
         _damageAnimationDurationWait = new WaitForSeconds(_damageAnimationDuration);
     }
 
-    private void Update()
+    public void SetTriggers(bool isGrounded, bool isStuned, float velocityY, float velocityX)
     {
-        _animator.SetBool(BoolIsGrounded, _character.GroundChecker.IsGrounded());
-        _animator.SetBool(BoolIsStuned, _character.Collisions.IsStuned);
-        _animator.SetFloat(FloatVelocityY, _character.Movement.RigidbodyVelocityY);
-        _animator.SetFloat(FloatVelocityX, Mathf.Abs(_character.Movement.RigidbodyVelocityX));
+        _animator.SetBool(BoolIsGrounded, isGrounded);
+        _animator.SetBool(BoolIsStuned, isStuned);
+        _animator.SetFloat(FloatVelocityY, velocityY);
+        _animator.SetFloat(FloatVelocityX, Mathf.Abs(velocityX));
     }
 
-    private void OnEnable()
-    {
-        _character.Collisions.Damaged += SetDamaged;
-        _character.Dead += SetDead;
-        _character.Respawned += SetRespawned;
-    }
-
-    private void OnDisable()
-    {
-        _character.Collisions.Damaged -= SetDamaged;
-        _character.Dead -= SetDead;
-        _character.Respawned -= SetRespawned;
-    }
-
-    private void SetDamaged()
+    public void SetDamaged()
     {
         _animator.Play(DamagedState);
         _setDamagedStop = StartCoroutine(DisableDamageAnimation());
     }
 
-    private void SetDead()
+    public void SetDead()
     {
         _animator.Play(DamagedState);
         StopCoroutine(_setDamagedStop);
     }
 
-    private void SetRespawned() => _animator.Play(IdleState);
+    public void SetRespawned() => _animator.Play(IdleState);
 
     private IEnumerator DisableDamageAnimation()
     {

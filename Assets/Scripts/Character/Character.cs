@@ -7,6 +7,8 @@ public class Character : MonoBehaviour
     [SerializeField] private GroundChecker _groundChecker;
     [SerializeField] private CharacterMovement _movement;
     [SerializeField] private CharacterCollisions _collisions;
+    [SerializeField] private CharacterAnimations _animations;
+    [SerializeField] private CharacterSounds _sounds;
     [SerializeField] private Fliper _fliper;
 
     public event Action Disabled;
@@ -15,19 +17,41 @@ public class Character : MonoBehaviour
 
     public bool IsDisable { get; private set; } = false;
 
-    public UserInput UserInput => _userInput;
     public GroundChecker GroundChecker => _groundChecker;
     public CharacterCollisions Collisions => _collisions;
-    public CharacterMovement Movement => _movement;
+
+    private void Awake()
+    {
+        _movement.SetGroundChecker(_groundChecker);
+    }
 
     private void Update()
     {
         _fliper.SetHorizontalMoving(UserInput.HorizontalRaw);
+        _animations.SetTriggers(_groundChecker.IsGrounded(), _collisions.IsStuned, _movement.RigidbodyVelocityY, _movement.RigidbodyVelocityX);
+    }
+
+    private void OnEnable()
+    {
+        _collisions.Damaged += _animations.SetDamaged;
+        _collisions.Damaged += _sounds.PlayDamageSound;
+        _movement.Jumped += _sounds.PlayJumpSound;
+        _collisions.JumpEnemy += _movement.JumpEnemy;
+    }
+
+    private void OnDisable()
+    {
+        _collisions.Damaged -= _animations.SetDamaged;
+        _collisions.Damaged -= _sounds.PlayDamageSound;
+        _movement.Jumped -= _sounds.PlayJumpSound;
+        _collisions.JumpEnemy -= _movement.JumpEnemy;
     }
 
     public void SetDisable()
     {
         Disabled?.Invoke();
+        _movement.SetDisable();
+        _sounds.DisableSound();
         _collisions.CancelStun();
         IsDisable = true;
     }
@@ -35,12 +59,16 @@ public class Character : MonoBehaviour
     public void SetDead()
     {
         SetDisable();
+        _animations.SetDead();
         Dead?.Invoke();
     }
 
     public void Respawn()
     {
         Respawned?.Invoke();
+        _movement.SetEnable();
+        _sounds.EnableSound();
+        _animations.SetRespawned();
         IsDisable = false;
     }
 

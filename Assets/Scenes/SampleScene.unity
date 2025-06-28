@@ -3948,7 +3948,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cf887a4cff1214d44b981cd7c3f5c8bc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _rigidbody: {fileID: 1414571814}
   _jumpForce: 10
   _speed: 10
 --- !u!95 &1414571817
@@ -4001,6 +4000,8 @@ MonoBehaviour:
   _groundChecker: {fileID: 1115246816}
   _movement: {fileID: 1414571815}
   _collisions: {fileID: 1414571824}
+  _animations: {fileID: 1414571820}
+  _sounds: {fileID: 1414571822}
   _fliper: {fileID: 1414571825}
 --- !u!114 &1414571822
 MonoBehaviour:
@@ -5337,7 +5338,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _characterStartHealth: 2
   _characterMaxHealth: 3
-  _characterHealth: 0
   _character: {fileID: 1414571821}
   _enemies: {fileID: 1112395245}
   _gemSpawner: {fileID: 1969870221}

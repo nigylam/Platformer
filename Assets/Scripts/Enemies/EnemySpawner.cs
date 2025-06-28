@@ -1,7 +1,7 @@
 using System;
 using UnityEngine;
 
-public class Enemies : MonoBehaviour
+public class EnemySpawner : MonoBehaviour
 {
     [SerializeField] private Enemy[] _enemies;
 

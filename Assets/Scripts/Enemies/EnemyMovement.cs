@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class EnemyPatrolling : MonoBehaviour
+public class EnemyMovement : MonoBehaviour
 {
     [SerializeField] private float _closeDistanceToTarget = 2f;
     [SerializeField] private float _speedPatrolling = 2f;
