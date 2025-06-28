@@ -23,6 +23,7 @@ public class Character : MonoBehaviour
     private void Awake()
     {
         _movement.SetGroundChecker(_groundChecker);
+        _collisions.SetGroundChecker(_groundChecker);
     }
 
     private void Update()

@@ -19,12 +19,11 @@ public class CharacterCollisions : MonoBehaviour
     private bool _isStuned;
     private WaitForSeconds _stunedTimeWait;
     private Coroutine _stunStop;
-    private Character _character;
+    private GroundChecker _groundChecker;
 
     private void Awake()
     {
         _stunedTimeWait = new WaitForSeconds(_stunedTime);
-        _character = GetComponent<Character>();
     }
 
     private void OnTriggerEnter2D(Collider2D other)
@@ -47,6 +46,11 @@ public class CharacterCollisions : MonoBehaviour
         }
     }
 
+    public void SetGroundChecker(GroundChecker groundChecker)
+    {
+        _groundChecker = groundChecker;
+    }
+
     public void CancelStun()
     {
         if (_isStuned)
@@ -60,7 +64,7 @@ public class CharacterCollisions : MonoBehaviour
     {
         _isStuned = true;
         gameObject.layer = LayerMask.NameToLayer(StunedLayer);
-        _character.GroundChecker.gameObject.layer = LayerMask.NameToLayer(StunedLayer);
+        _groundChecker.gameObject.layer = LayerMask.NameToLayer(StunedLayer);
         _stunStop = StartCoroutine(DisableStuned());
     }
 
@@ -68,7 +72,7 @@ public class CharacterCollisions : MonoBehaviour
     {
         _isStuned = false;
         gameObject.layer = LayerMask.NameToLayer(NormalLayer);
-        _character.GroundChecker.gameObject.layer = LayerMask.NameToLayer(NormalLayer);
+        _groundChecker.gameObject.layer = LayerMask.NameToLayer(NormalLayer);
     }
 
     private IEnumerator DisableStuned()
