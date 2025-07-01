@@ -9,10 +9,10 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5197237497262128666}
-  - component: {fileID: 5761331653552600516}
   - component: {fileID: 8719812921230641266}
+  - component: {fileID: 8915783267651249738}
   m_Layer: 0
-  m_Name: EnemyWeakPlace
+  m_Name: EnemyWeakSpot
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -33,19 +33,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 3404059410923677818}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &5761331653552600516
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 544835427652493112}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e4703bd44baff974c884a8e4965008e1, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _enemy: {fileID: 7006237858773364321}
 --- !u!61 &8719812921230641266
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -91,6 +78,18 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 1.9530694, y: 0.33794832}
   m_EdgeRadius: 0
+--- !u!114 &8915783267651249738
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 544835427652493112}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1e289f188854c3949af9674741db8d08, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &2835987402700867008
 GameObject:
   m_ObjectHideFlags: 0
@@ -211,8 +210,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3ba673e0f395bcb4a83eee851bf2aefa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _weekPlaceCollider: {fileID: 8719812921230641266}
-  _enemy: {fileID: 0}
 --- !u!61 &2487893657693423412
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -395,6 +392,12 @@ MonoBehaviour:
   _bodyCollider: {fileID: 2487893657693423412}
   _weekPlaceCollider: {fileID: 8719812921230641266}
   _dieSound: {fileID: 0}
+  _body: {fileID: 6560528025430292462}
+  _weakSpot: {fileID: 8915783267651249738}
+  _movement: {fileID: 163301399150771275}
+  _fliper: {fileID: 7491250978158696682}
+  _character: {fileID: 0}
+  _health: 1
 --- !u!114 &163301399150771275
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -415,8 +418,6 @@ MonoBehaviour:
   _patrolPoints:
   - {fileID: 0}
   - {fileID: 0}
-  _currentDestination: {x: 0, y: 0}
-  _character: {fileID: 0}
   _pursuitSign: {fileID: 3833526436821683225}
 --- !u!114 &7491250978158696682
 MonoBehaviour:

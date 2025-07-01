@@ -3330,6 +3330,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 1112395247}
     - target: {fileID: 7006237858773364321, guid: 4748f78ca38235c4694da243613b5b97, type: 3}
+      propertyPath: _character
+      value: 
+      objectReference: {fileID: 1414571821}
+    - target: {fileID: 7006237858773364321, guid: 4748f78ca38235c4694da243613b5b97, type: 3}
       propertyPath: _gemReward
       value: 
       objectReference: {fileID: 0}
@@ -3799,6 +3803,7 @@ GameObject:
   - component: {fileID: 1414571822}
   - component: {fileID: 1414571824}
   - component: {fileID: 1414571825}
+  - component: {fileID: 1414571826}
   m_Layer: 7
   m_Name: Character
   m_TagString: Untagged
@@ -4003,6 +4008,7 @@ MonoBehaviour:
   _animations: {fileID: 1414571820}
   _sounds: {fileID: 1414571822}
   _fliper: {fileID: 1414571825}
+  _attacker: {fileID: 1414571826}
 --- !u!114 &1414571822
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4140,6 +4146,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _isFacingRight: 1
+--- !u!114 &1414571826
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1414571810}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 35f4cc80d671ee344b63d48184f1fe99, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1431945615
 GameObject:
   m_ObjectHideFlags: 0
@@ -5579,6 +5597,10 @@ PrefabInstance:
       propertyPath: _dieSound
       value: 
       objectReference: {fileID: 1112395247}
+    - target: {fileID: 7006237858773364321, guid: 4748f78ca38235c4694da243613b5b97, type: 3}
+      propertyPath: _character
+      value: 
+      objectReference: {fileID: 1414571821}
     - target: {fileID: 7006237858773364321, guid: 4748f78ca38235c4694da243613b5b97, type: 3}
       propertyPath: _gemReward
       value: 

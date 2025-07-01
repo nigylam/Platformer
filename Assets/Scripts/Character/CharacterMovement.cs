@@ -32,6 +32,8 @@ public class CharacterMovement : MonoBehaviour
     {
         if (_isDisable == false)
             _rigidbody.velocity = new Vector2(UserInput.HorizontalRaw * _speed, _rigidbody.velocity.y);
+        else
+            _rigidbody.velocity = Vector2.zero;
     }
 
     private void OnEnable()
@@ -61,7 +63,7 @@ public class CharacterMovement : MonoBehaviour
         transform.position = _startPosition;
     }
 
-    public void JumpEnemy()
+    public void JumpEnemy(EnemyWeakSpot _)
     {
         _rigidbody.velocity = new Vector2(_rigidbody.velocity.x, _jumpForce);
     }

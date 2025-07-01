@@ -1,11 +1,12 @@
+using System;
 using UnityEngine;
 
 public class EnemyBody : MonoBehaviour
 {
-    [SerializeField] private Enemy _enemy;
+    public event Action ReadyForDisable;
 
     public void OnAnimationEnding()
     {
-        _enemy.gameObject.SetActive(false);
+        ReadyForDisable?.Invoke();
     }
 }

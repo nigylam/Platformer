@@ -8,36 +8,20 @@ public class EnemyMovement : MonoBehaviour
     [SerializeField] private float _pursuingDistance = 6f;
     [SerializeField] private float _pursuingVerticalDistance = 1f;
     [SerializeField] private Transform[] _patrolPoints;
- 
-    [SerializeField] private Vector2 _currentDestination;
-    [SerializeField] private Character _character;
     [SerializeField] private GameObject _pursuitSign;
 
     private Fliper _fliper;
-    private Enemy _enemy;
     private float _currentSpeed;
     private int _currentPatrolPoint = 0;
     private float _horizontalMoving = -1;
     private Vector2 _startPosition;
+    private Character _character;
+    private Vector2 _currentDestination;
 
     private void Awake()
     {
-        _fliper = GetComponent<Fliper>();
-        _enemy = GetComponent<Enemy>();
         _currentDestination = _patrolPoints[_currentPatrolPoint].position;
         _startPosition = transform.position;
-    }
-
-    private void OnEnable()
-    {
-        _enemy.Dead += Die;
-        _enemy.Respawned += Respawn;
-    }
-
-    private void OnDisable()
-    {
-        _enemy.Dead -= Die;
-        _enemy.Respawned -= Respawn;
     }
 
     private void Start()
@@ -50,13 +34,19 @@ public class EnemyMovement : MonoBehaviour
         Patrolling();
     }
 
-    private void Die(Vector2 position)
+    public void SetLinks(Fliper fliper, Character character)
+    {
+        _fliper = fliper;
+        _character = character;
+    }
+
+    public void Die(Vector2 position)
     {
         _pursuitSign.SetActive(false);
         _currentSpeed = 0;
     }
 
-    private void Respawn()
+    public void Respawn()
     {
         _currentSpeed = _speedPatrolling;
         transform.position = _startPosition;

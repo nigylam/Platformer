@@ -9,26 +9,71 @@ public class Enemy : MonoBehaviour
     [SerializeField] private Collider2D _bodyCollider;
     [SerializeField] private Collider2D _weekPlaceCollider;
     [SerializeField] private AudioSource _dieSound;
+    [SerializeField] private EnemyBody _body;
+    [SerializeField] private EnemyWeakSpot _weakSpot;
+    [SerializeField] private EnemyMovement _movement;
+    [SerializeField] private Fliper _fliper;
+    [SerializeField] private Character _character;
+    [SerializeField] private int _health = 1;
 
     public event Action<Vector2> Dead;
-    public event Action Respawned;
 
     public float JumpPadForce { get; private set; } = 3f;
-
-    public void Die()
+    public int Health
     {
-        _bodyCollider.enabled = false;
-        Dead?.Invoke(transform.position);
-        _dieSound.Play();
-        _animator.Play(DieAnimation);
+        get { return _health; }
+
+        set
+        {
+            _health = value;
+
+            if (_health <= 0)
+                Die();
+        }
+    }
+
+    private void OnEnable()
+    {
+        _body.ReadyForDisable += Disable;
+        _weakSpot.Damaged += GetDamage;
+    }    
+    
+    private void OnDisable()
+    {
+        _body.ReadyForDisable -= Disable;
+        _weakSpot.Damaged -= GetDamage;
+    }
+
+    private void Awake()
+    {
+        _movement.SetLinks(_fliper, _character);
     }
 
     public void Respawn()
     {
         gameObject.SetActive(true);
+        _movement.Respawn();
         _animator.enabled = true;
         _bodyCollider.enabled = true;
         _weekPlaceCollider.enabled = true;
-        Respawned?.Invoke();
+    }
+
+    private void GetDamage()
+    {
+        Health--;
+    }
+
+    private void Die()
+    {
+        Dead?.Invoke(transform.position);
+        _bodyCollider.enabled = false;
+        _movement.Die(transform.position);
+        _dieSound.Play();
+        _animator.Play(DieAnimation);
+    }
+
+    private void Disable()
+    {
+        gameObject.SetActive(false);
     }
 }

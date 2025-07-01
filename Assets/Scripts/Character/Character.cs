@@ -10,15 +10,18 @@ public class Character : MonoBehaviour
     [SerializeField] private CharacterAnimations _animations;
     [SerializeField] private CharacterSounds _sounds;
     [SerializeField] private Fliper _fliper;
+    [SerializeField] private CharacterAttacker _attacker;
 
-    public event Action Disabled;
-    public event Action Dead;
     public event Action Respawned;
+    public event Action Dead;
+    public event Action Healed;
 
-    public bool IsDisable { get; private set; } = false;
 
-    public GroundChecker GroundChecker => _groundChecker;
+    public int Health { get; private set; }
     public CharacterCollisions Collisions => _collisions;
+
+    private bool _isDisable = false;
+    private int _maxHealth;
 
     private void Awake()
     {
@@ -34,33 +37,41 @@ public class Character : MonoBehaviour
 
     private void OnEnable()
     {
-        _collisions.Damaged += _animations.SetDamaged;
-        _collisions.Damaged += _sounds.PlayDamageSound;
+        _collisions.EnemyCollided += GetDamage;
         _movement.Jumped += _sounds.PlayJumpSound;
-        _collisions.JumpEnemy += _movement.JumpEnemy;
+        _collisions.EnemyWeakSpotCollided += _movement.JumpEnemy;
+        _collisions.EnemyWeakSpotCollided += _attacker.Attack;
+        _collisions.HealingCollected += Heal;
     }
 
     private void OnDisable()
     {
-        _collisions.Damaged -= _animations.SetDamaged;
-        _collisions.Damaged -= _sounds.PlayDamageSound;
+        _collisions.EnemyCollided -= GetDamage;
         _movement.Jumped -= _sounds.PlayJumpSound;
-        _collisions.JumpEnemy -= _movement.JumpEnemy;
+        _collisions.EnemyWeakSpotCollided -= _movement.JumpEnemy;
+        _collisions.EnemyWeakSpotCollided -= _attacker.Attack;
+    }
+
+    public void SetHealth(int startHealth, int maxHealth)
+    {
+        Health = startHealth;
+        _maxHealth = maxHealth;
     }
 
     public void SetDisable()
     {
-        Disabled?.Invoke();
         _movement.SetDisable();
         _sounds.DisableSound();
         _collisions.CancelStun();
-        IsDisable = true;
+        _isDisable = true;
     }
 
     public void SetDead()
     {
-        SetDisable();
         _animations.SetDead();
+        _sounds.PlayDamageSound();
+        SetDisable();
+        _collisions.ChangeLayer(true);
         Dead?.Invoke();
     }
 
@@ -70,11 +81,37 @@ public class Character : MonoBehaviour
         _movement.SetEnable();
         _sounds.EnableSound();
         _animations.SetRespawned();
-        IsDisable = false;
+        _collisions.CancelStun();
+        _isDisable = false;
     }
 
     public bool IsAvailable()
     {
-        return IsDisable == false && _collisions.IsStuned == false;
+        return _isDisable == false && _collisions.IsStuned == false;
+    }
+
+    private void GetDamage()
+    {
+        Health--;
+
+        if (Health > 0)
+        {
+            _animations.SetDamaged();
+            _sounds.PlayDamageSound();
+            _collisions.GetStuned();
+        }
+        else if (Health <= 0)
+        {
+            SetDead();
+        }
+    }
+
+    private void Heal()
+    {
+        if (Health < _maxHealth)
+        {
+            Health++;
+            Healed?.Invoke();
+        }
     }
 }

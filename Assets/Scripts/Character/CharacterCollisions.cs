@@ -11,12 +11,12 @@ public class CharacterCollisions : MonoBehaviour
 
     public bool IsStuned => _isStuned;
 
-    public event Action Damaged;
+    public event Action EnemyCollided;
     public event Action GemCollected;
     public event Action HealingCollected;
-    public event Action JumpEnemy;
+    public event Action<EnemyWeakSpot> EnemyWeakSpotCollided;
 
-    private bool _isStuned;
+    private bool _isStuned = false;
     private WaitForSeconds _stunedTimeWait;
     private Coroutine _stunStop;
     private GroundChecker _groundChecker;
@@ -36,13 +36,12 @@ public class CharacterCollisions : MonoBehaviour
 
         if (other.gameObject.TryGetComponent(out EnemyBody _))
         {
-            GetStuned();
-            Damaged?.Invoke();
+            EnemyCollided?.Invoke();
         }
 
-        if (other.gameObject.TryGetComponent(out EnemyWeakPlace _))
+        if (other.gameObject.TryGetComponent(out EnemyWeakSpot enemy))
         {
-            JumpEnemy?.Invoke();
+            EnemyWeakSpotCollided?.Invoke(enemy);
         }
     }
 
@@ -60,19 +59,31 @@ public class CharacterCollisions : MonoBehaviour
         }
     }
 
-    private void GetStuned()
+    public void GetStuned()
     {
-        _isStuned = true;
-        gameObject.layer = LayerMask.NameToLayer(StunedLayer);
-        _groundChecker.gameObject.layer = LayerMask.NameToLayer(StunedLayer);
+        ChangeLayer(true);
         _stunStop = StartCoroutine(DisableStuned());
+    }
+
+    public void ChangeLayer(bool isStuned)
+    {
+        _isStuned = isStuned;
+
+        if (_isStuned == false)
+        {
+            gameObject.layer = LayerMask.NameToLayer(NormalLayer);
+            _groundChecker.gameObject.layer = LayerMask.NameToLayer(NormalLayer);
+        }
+        else
+        {
+            gameObject.layer = LayerMask.NameToLayer(StunedLayer);
+            _groundChecker.gameObject.layer = LayerMask.NameToLayer(StunedLayer);
+        }
     }
 
     private void Unstan()
     {
-        _isStuned = false;
-        gameObject.layer = LayerMask.NameToLayer(NormalLayer);
-        _groundChecker.gameObject.layer = LayerMask.NameToLayer(NormalLayer);
+        ChangeLayer(false);
     }
 
     private IEnumerator DisableStuned()
