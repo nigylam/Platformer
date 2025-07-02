@@ -12,8 +12,8 @@ public class CharacterCollisions : MonoBehaviour
     public bool IsStuned => _isStuned;
 
     public event Action EnemyCollided;
-    public event Action GemCollected;
-    public event Action HealingCollected;
+    public event Action<Gem> GemCollided;
+    public event Action<Healing> HealingCollided;
     public event Action<EnemyWeakSpot> EnemyWeakSpotCollided;
 
     private bool _isStuned = false;
@@ -28,11 +28,11 @@ public class CharacterCollisions : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D other)
     {
-        if (other.gameObject.TryGetComponent(out Gem _))
-            GemCollected?.Invoke();
+        if (other.gameObject.TryGetComponent(out Gem gem))
+            GemCollided?.Invoke(gem);
 
-        if (other.gameObject.TryGetComponent(out Healing _))
-            HealingCollected?.Invoke();
+        if (other.gameObject.TryGetComponent(out Healing healing))
+            HealingCollided?.Invoke(healing);
 
         if (other.gameObject.TryGetComponent(out EnemyBody _))
         {

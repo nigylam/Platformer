@@ -15,18 +15,15 @@ public class Collectable : MonoBehaviour
         _triggerCollider = GetComponent<Collider2D>();
     }
 
-    private void OnTriggerEnter2D(Collider2D other)
-    {
-        if (other.gameObject.GetComponent<Character>() != null)
-        {
-            _animator.Play(DisapearAnimation);
-            _triggerCollider.enabled = false;
-        }
-    }
-
     private void OnEnable()
     {
         _triggerCollider.enabled = true;
+    }
+
+    public void Collect()
+    {
+        _animator.Play(DisapearAnimation);
+        _triggerCollider.enabled = false;
     }
 
     public void OnDisapearAnimationComplete()

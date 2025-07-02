@@ -5354,7 +5354,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 552985f20cacbdc419b15bf66bb5a399, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _characterStartHealth: 2
+  _characterStartHealth: 3
   _characterMaxHealth: 3
   _character: {fileID: 1414571821}
   _enemies: {fileID: 1112395245}

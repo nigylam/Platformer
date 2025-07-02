@@ -16,7 +16,6 @@ public class Character : MonoBehaviour
     public event Action Dead;
     public event Action Healed;
 
-
     public int Health { get; private set; }
     public CharacterCollisions Collisions => _collisions;
 
@@ -41,7 +40,7 @@ public class Character : MonoBehaviour
         _movement.Jumped += _sounds.PlayJumpSound;
         _collisions.EnemyWeakSpotCollided += _movement.JumpEnemy;
         _collisions.EnemyWeakSpotCollided += _attacker.Attack;
-        _collisions.HealingCollected += Heal;
+        _collisions.HealingCollided += Heal;
     }
 
     private void OnDisable()
@@ -50,6 +49,7 @@ public class Character : MonoBehaviour
         _movement.Jumped -= _sounds.PlayJumpSound;
         _collisions.EnemyWeakSpotCollided -= _movement.JumpEnemy;
         _collisions.EnemyWeakSpotCollided -= _attacker.Attack;
+        _collisions.HealingCollided -= Heal;
     }
 
     public void SetHealth(int startHealth, int maxHealth)
@@ -106,10 +106,11 @@ public class Character : MonoBehaviour
         }
     }
 
-    private void Heal()
+    private void Heal(Healing healing)
     {
         if (Health < _maxHealth)
         {
+            healing.Collect();
             Health++;
             Healed?.Invoke();
         }

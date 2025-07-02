@@ -49,7 +49,7 @@ public class Game : MonoBehaviour
 
     private void OnEnable()
     {
-        _character.Collisions.GemCollected += CollectGem;
+        _character.Collisions.GemCollided += CollectGem;
         _character.Healed += CollectHealing;
         _enemies.Dead += SpawnReward;
         _character.Dead += End;
@@ -57,7 +57,7 @@ public class Game : MonoBehaviour
 
     private void OnDisable()
     {
-        _character.Collisions.GemCollected -= CollectGem;
+        _character.Collisions.GemCollided -= CollectGem;
         _character.Healed -= CollectHealing;
         _enemies.Dead -= SpawnReward;
         _character.Dead -= End;
@@ -97,8 +97,9 @@ public class Game : MonoBehaviour
         }
     }
 
-    private void CollectGem()
+    private void CollectGem(Gem gem)
     {
+        gem.Collect();
         GemsCount++;
         GemsCountChanged?.Invoke(GemsCount);
         _gemSpawner.Sounds.Play();
