@@ -1,7 +1,7 @@
 using System.Collections;
 using UnityEngine;
 
-public class CharacterSounds : MonoBehaviour
+public class CharacterSound : MonoBehaviour
 {
     [SerializeField] private AudioSource _audiosource;
     [SerializeField] private AudioClip _audioJump;

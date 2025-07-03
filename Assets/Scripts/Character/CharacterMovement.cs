@@ -9,14 +9,24 @@ public class CharacterMovement : MonoBehaviour
 
     public event Action Jumped;
 
-    public float RigidbodyVelocityY { get => _rigidbody.velocity.y; }
-    public float RigidbodyVelocityX { get => _rigidbody.velocity.x; }
+    public float RigidbodyVelocityY =>_rigidbody.velocity.y;
+    public float RigidbodyVelocityX => _rigidbody.velocity.x;
 
     private bool _canDoSecondJump = true;
     private bool _isDisable = false;
     private Vector2 _startPosition;
     private Rigidbody2D _rigidbody;
     private GroundChecker _groundChecker;
+
+    private void OnEnable()
+    {
+        UserInput.JumpKeyPressed += Jump;
+    }
+
+    private void OnDisable()
+    {
+        UserInput.JumpKeyPressed -= Jump;
+    }
 
     private void Awake()
     {
@@ -36,15 +46,6 @@ public class CharacterMovement : MonoBehaviour
             _rigidbody.velocity = Vector2.zero;
     }
 
-    private void OnEnable()
-    {
-        UserInput.JumpKeyPressed += Jump;
-    }
-
-    private void OnDisable()
-    {
-        UserInput.JumpKeyPressed -= Jump;
-    }
 
     public void SetGroundChecker(GroundChecker groundChecker)
     {

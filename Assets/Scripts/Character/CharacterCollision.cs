@@ -2,7 +2,7 @@ using System;
 using System.Collections;
 using UnityEngine;
 
-public class CharacterCollisions : MonoBehaviour
+public class CharacterCollision : MonoBehaviour
 {
     private readonly string NormalLayer = "Player";
     private readonly string StunedLayer = "PlayerStuned";
@@ -13,7 +13,7 @@ public class CharacterCollisions : MonoBehaviour
 
     public event Action<EnemyBody> EnemyCollided;
     public event Action<Gem> GemCollided;
-    public event Action<Healing> HealingCollided;
+    public event Action<Medkit> MedkitCollided;
     public event Action<EnemyWeakSpot> EnemyWeakSpotCollided;
 
     private bool _isStuned = false;
@@ -31,8 +31,8 @@ public class CharacterCollisions : MonoBehaviour
         if (other.gameObject.TryGetComponent(out Gem gem))
             GemCollided?.Invoke(gem);
 
-        if (other.gameObject.TryGetComponent(out Healing healing))
-            HealingCollided?.Invoke(healing);
+        if (other.gameObject.TryGetComponent(out Medkit healing))
+            MedkitCollided?.Invoke(healing);
 
         if (other.gameObject.TryGetComponent(out EnemyBody enemy))
         {

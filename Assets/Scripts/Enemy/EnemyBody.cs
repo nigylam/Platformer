@@ -3,7 +3,7 @@ using UnityEngine;
 
 public class EnemyBody : MonoBehaviour
 {
-    public event Action ReadyForDisable;
+    public event Action PreparedForDisable;
 
     public int Damage { get; private set; }
 
@@ -11,6 +11,6 @@ public class EnemyBody : MonoBehaviour
 
     public void OnAnimationEnding()
     {
-        ReadyForDisable?.Invoke();
+        PreparedForDisable?.Invoke();
     }
 }

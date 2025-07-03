@@ -1,7 +1,7 @@
 using System.Collections;
 using UnityEngine;
 
-public class CharacterAnimations : MonoBehaviour
+public class CharacterAnimation : MonoBehaviour
 {
     private readonly int DamagedState = Animator.StringToHash("Damaged");
     private readonly int IdleState = Animator.StringToHash("Idle");

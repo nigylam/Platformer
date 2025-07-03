@@ -7,12 +7,12 @@ public class CollectableSpawner : MonoBehaviour
     [SerializeField] private Collectable _collectable;
     [SerializeField] private List<Transform> _places;
     [SerializeField] private int _count;
-    private CollectableSounds _sounds;
+    private CollectableSound _sound;
 
     private List<Collectable> _spawned;
 
     public int Count => _count;
-    public CollectableSounds Sounds => _sounds;
+    public CollectableSound Sounds => _sound;
 
     private ObjectPool<Collectable> _pool;
     private int _poolCapacity = 4;
@@ -32,7 +32,7 @@ public class CollectableSpawner : MonoBehaviour
 
         _spawned = new List<Collectable>();
 
-        _sounds = GetComponent<CollectableSounds>();
+        _sound = GetComponent<CollectableSound>();
     }
 
     public void Spawn()

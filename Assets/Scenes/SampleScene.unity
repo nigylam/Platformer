@@ -4005,9 +4005,9 @@ MonoBehaviour:
   _userInput: {fileID: 2117022870}
   _groundChecker: {fileID: 1115246816}
   _movement: {fileID: 1414571815}
-  _collisions: {fileID: 1414571824}
-  _animations: {fileID: 1414571820}
-  _sounds: {fileID: 1414571822}
+  _collision: {fileID: 0}
+  _animation: {fileID: 0}
+  _sound: {fileID: 0}
   _fliper: {fileID: 1414571825}
   _attacker: {fileID: 1414571826}
   _health: {fileID: 1414571827}
@@ -4135,6 +4135,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _stunedTime: 3
+  _isStuned: 0
+  _groundChecker: {fileID: 0}
 --- !u!114 &1414571825
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5188,7 +5190,7 @@ GameObject:
   - component: {fileID: 2079009349}
   - component: {fileID: 2079009351}
   m_Layer: 0
-  m_Name: Healings
+  m_Name: Medkit
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

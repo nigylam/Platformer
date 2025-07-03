@@ -26,14 +26,14 @@ public class Enemy : MonoBehaviour
 
     private void OnEnable()
     {
-        _body.ReadyForDisable += Disable;
+        _body.PreparedForDisable += Disable;
         _weakSpot.Damaged += GetDamage;
         _health.Dead += Die;
     }    
     
     private void OnDisable()
     {
-        _body.ReadyForDisable -= Disable;
+        _body.PreparedForDisable -= Disable;
         _weakSpot.Damaged -= GetDamage;
         _health.Dead -= Die;
     }

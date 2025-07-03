@@ -2,7 +2,7 @@ using System.Collections;
 using UnityEngine;
 
 [RequireComponent(typeof(AudioSource))]
-public class CollectableSounds : MonoBehaviour
+public class CollectableSound : MonoBehaviour
 {
     private AudioSource _audioSource;
 

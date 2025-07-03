@@ -6,9 +6,9 @@ public class Character : MonoBehaviour
     [SerializeField] private UserInput _userInput;
     [SerializeField] private GroundChecker _groundChecker;
     [SerializeField] private CharacterMovement _movement;
-    [SerializeField] private CharacterCollisions _collisions;
-    [SerializeField] private CharacterAnimations _animations;
-    [SerializeField] private CharacterSounds _sounds;
+    [SerializeField] private CharacterCollision _collision;
+    [SerializeField] private CharacterAnimation _animation;
+    [SerializeField] private CharacterSound _sound;
     [SerializeField] private Fliper _fliper;
     [SerializeField] private CharacterAttacker _attacker;
     [SerializeField] private Health _health;
@@ -17,47 +17,47 @@ public class Character : MonoBehaviour
     public event Action Dead;
     public event Action Healed;
 
-    public CharacterCollisions Collisions => _collisions;
+    public CharacterCollision Collisions => _collision;
 
     private bool _isDisable = false;
 
     private void Awake()
     {
         _movement.SetGroundChecker(_groundChecker);
-        _collisions.SetGroundChecker(_groundChecker);
+        _collision.SetGroundChecker(_groundChecker);
     }
 
     private void Update()
     {
         _fliper.SetHorizontalMoving(UserInput.HorizontalRaw);
-        _animations.SetTriggers(_groundChecker.IsGrounded(), _collisions.IsStuned, _movement.RigidbodyVelocityY, _movement.RigidbodyVelocityX);
+        _animation.SetTriggers(_groundChecker.IsGrounded(), _collision.IsStuned, _movement.RigidbodyVelocityY, _movement.RigidbodyVelocityX);
     }
 
     private void OnEnable()
     {
-        _collisions.EnemyCollided += TakeDamage;
-        _movement.Jumped += _sounds.PlayJumpSound;
-        _collisions.EnemyWeakSpotCollided += _movement.JumpEnemy;
-        _collisions.EnemyWeakSpotCollided += _attacker.Attack;
-        _collisions.HealingCollided += Heal;
+        _collision.EnemyCollided += TakeDamage;
+        _movement.Jumped += _sound.PlayJumpSound;
+        _collision.EnemyWeakSpotCollided += _movement.JumpEnemy;
+        _collision.EnemyWeakSpotCollided += _attacker.Attack;
+        _collision.MedkitCollided += Heal;
         _health.Dead += Die;
     }
 
     private void OnDisable()
     {
-        _collisions.EnemyCollided -= TakeDamage;
-        _movement.Jumped -= _sounds.PlayJumpSound;
-        _collisions.EnemyWeakSpotCollided -= _movement.JumpEnemy;
-        _collisions.EnemyWeakSpotCollided -= _attacker.Attack;
-        _collisions.HealingCollided -= Heal;
+        _collision.EnemyCollided -= TakeDamage;
+        _movement.Jumped -= _sound.PlayJumpSound;
+        _collision.EnemyWeakSpotCollided -= _movement.JumpEnemy;
+        _collision.EnemyWeakSpotCollided -= _attacker.Attack;
+        _collision.MedkitCollided -= Heal;
         _health.Dead -= Die;
     }
 
     public void SetDisable()
     {
         _movement.SetDisable();
-        _sounds.DisableSound();
-        _collisions.CancelStun();
+        _sound.DisableSound();
+        _collision.CancelStun();
         _isDisable = true;
     }
 
@@ -66,15 +66,15 @@ public class Character : MonoBehaviour
         Respawned?.Invoke();
         _health.Set(startHealth, maxHealth);
         _movement.SetEnable();
-        _sounds.EnableSound();
-        _animations.SetRespawned();
-        _collisions.CancelStun();
+        _sound.EnableSound();
+        _animation.SetRespawned();
+        _collision.CancelStun();
         _isDisable = false;
     }
 
     public bool IsAvailable()
     {
-        return _isDisable == false && _collisions.IsStuned == false;
+        return _isDisable == false && _collision.IsStuned == false;
     }
 
     private void TakeDamage(EnemyBody enemy)
@@ -83,27 +83,27 @@ public class Character : MonoBehaviour
 
         if (_health.Current > 0)
         {
-            _animations.SetDamaged();
-            _sounds.PlayDamageSound();
-            _collisions.Stun();
+            _animation.SetDamaged();
+            _sound.PlayDamageSound();
+            _collision.Stun();
         }
     }
 
-    private void Heal(Healing medKit)
+    private void Heal(Medkit medkit)
     {
-        if (_health.CanIncrease(medKit.Power))
+        if (_health.CanIncrease(medkit.Power))
         {
-            medKit.Collect();
+            medkit.Collect();
             Healed?.Invoke();
         }
     }
 
     private void Die()
     {
-        _animations.SetDead();
-        _sounds.PlayDamageSound();
+        _animation.SetDead();
+        _sound.PlayDamageSound();
         SetDisable();
-        _collisions.ChangeLayer(true);
+        _collision.ChangeLayer(true);
         Dead?.Invoke();
     }
 }
