@@ -3,10 +3,10 @@ using UnityEngine;
 
 public class EnemyWeakSpot : MonoBehaviour
 {
-    public event Action Damaged;
+    public event Action<int> Damaged;
 
-    public void GetDamage()
+    public void GetDamage(int damage = 1)
     {
-        Damaged?.Invoke();
+        Damaged?.Invoke(damage);
     }
 }

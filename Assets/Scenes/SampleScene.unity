@@ -3804,6 +3804,7 @@ GameObject:
   - component: {fileID: 1414571824}
   - component: {fileID: 1414571825}
   - component: {fileID: 1414571826}
+  - component: {fileID: 1414571827}
   m_Layer: 7
   m_Name: Character
   m_TagString: Untagged
@@ -4009,6 +4010,7 @@ MonoBehaviour:
   _sounds: {fileID: 1414571822}
   _fliper: {fileID: 1414571825}
   _attacker: {fileID: 1414571826}
+  _health: {fileID: 1414571827}
 --- !u!114 &1414571822
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4156,6 +4158,18 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 35f4cc80d671ee344b63d48184f1fe99, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &1414571827
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1414571810}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cd16444a0ea78994a9087f3eada90379, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &1431945615
@@ -5357,7 +5371,7 @@ MonoBehaviour:
   _characterStartHealth: 3
   _characterMaxHealth: 3
   _character: {fileID: 1414571821}
-  _enemies: {fileID: 1112395245}
+  _enemySpawner: {fileID: 1112395245}
   _gemSpawner: {fileID: 1969870221}
   _healingSpawner: {fileID: 2079009350}
 --- !u!4 &2117022869

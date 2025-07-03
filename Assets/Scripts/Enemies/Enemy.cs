@@ -5,6 +5,7 @@ public class Enemy : MonoBehaviour
 {
     private readonly int DieAnimation = Animator.StringToHash("Die");
 
+    [Header("Links")]
     [SerializeField] private Animator _animator;
     [SerializeField] private Collider2D _bodyCollider;
     [SerializeField] private Collider2D _weekPlaceCollider;
@@ -14,34 +15,27 @@ public class Enemy : MonoBehaviour
     [SerializeField] private EnemyMovement _movement;
     [SerializeField] private Fliper _fliper;
     [SerializeField] private Character _character;
-    [SerializeField] private int _health = 1;
+    [SerializeField] private Health _health;
+
+    [Header("Stats")]
+    [SerializeField] private int _damage = 1;
 
     public event Action<Vector2> Dead;
 
     public float JumpPadForce { get; private set; } = 3f;
-    public int Health
-    {
-        get { return _health; }
-
-        set
-        {
-            _health = value;
-
-            if (_health <= 0)
-                Die();
-        }
-    }
 
     private void OnEnable()
     {
         _body.ReadyForDisable += Disable;
         _weakSpot.Damaged += GetDamage;
+        _health.Dead += Die;
     }    
     
     private void OnDisable()
     {
         _body.ReadyForDisable -= Disable;
         _weakSpot.Damaged -= GetDamage;
+        _health.Dead -= Die;
     }
 
     private void Awake()
@@ -56,11 +50,12 @@ public class Enemy : MonoBehaviour
         _animator.enabled = true;
         _bodyCollider.enabled = true;
         _weekPlaceCollider.enabled = true;
+        _body.Set(_damage);
     }
 
-    private void GetDamage()
+    private void GetDamage(int damage)
     {
-        Health--;
+        _health.Decrease(damage);
     }
 
     private void Die()

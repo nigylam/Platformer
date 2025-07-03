@@ -10,7 +10,7 @@ public class Game : MonoBehaviour
 
     [Header("Links")]
     [SerializeField] private Character _character;
-    [SerializeField] private EnemySpawner _enemies;
+    [SerializeField] private EnemySpawner _enemySpawner;
     [SerializeField] private CollectableSpawner _gemSpawner;
     [SerializeField] private CollectableSpawner _healingSpawner;
 
@@ -51,7 +51,7 @@ public class Game : MonoBehaviour
     {
         _character.Collisions.GemCollided += CollectGem;
         _character.Healed += CollectHealing;
-        _enemies.Dead += SpawnReward;
+        _enemySpawner.Dead += SpawnReward;
         _character.Dead += End;
     }
 
@@ -59,7 +59,7 @@ public class Game : MonoBehaviour
     {
         _character.Collisions.GemCollided -= CollectGem;
         _character.Healed -= CollectHealing;
-        _enemies.Dead -= SpawnReward;
+        _enemySpawner.Dead -= SpawnReward;
         _character.Dead -= End;
     }
 
@@ -67,13 +67,12 @@ public class Game : MonoBehaviour
     {
         _gemSpawner.Despawn();
         _gemSpawner.Spawn();
-        _gemsMax = _gemSpawner.Count + _enemies.Count;
+        _gemsMax = _gemSpawner.Count + _enemySpawner.Count;
         GemsCount = 0;
         _healingSpawner.Despawn();
         _healingSpawner.Spawn();
-        _character.SetHealth(_characterStartHealth, _characterMaxHealth);
-        _character.Respawn();
-        _enemies.Respawn();
+        _character.Respawn(_characterStartHealth, _characterMaxHealth);
+        _enemySpawner.Respawn();
         Restarted?.Invoke();
     }
 

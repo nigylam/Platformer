@@ -351,6 +351,7 @@ GameObject:
   - component: {fileID: 7006237858773364321}
   - component: {fileID: 163301399150771275}
   - component: {fileID: 7491250978158696682}
+  - component: {fileID: -7650883015542049174}
   m_Layer: 0
   m_Name: Enemy
   m_TagString: Untagged
@@ -397,7 +398,8 @@ MonoBehaviour:
   _movement: {fileID: 163301399150771275}
   _fliper: {fileID: 7491250978158696682}
   _character: {fileID: 0}
-  _health: 1
+  _health: {fileID: -7650883015542049174}
+  _damage: 1
 --- !u!114 &163301399150771275
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -432,3 +434,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _isFacingRight: 0
+--- !u!114 &-7650883015542049174
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7990581797122208932}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cd16444a0ea78994a9087f3eada90379, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

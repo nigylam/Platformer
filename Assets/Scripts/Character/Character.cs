@@ -11,16 +11,15 @@ public class Character : MonoBehaviour
     [SerializeField] private CharacterSounds _sounds;
     [SerializeField] private Fliper _fliper;
     [SerializeField] private CharacterAttacker _attacker;
+    [SerializeField] private Health _health;
 
     public event Action Respawned;
     public event Action Dead;
     public event Action Healed;
 
-    public int Health { get; private set; }
     public CharacterCollisions Collisions => _collisions;
 
     private bool _isDisable = false;
-    private int _maxHealth;
 
     private void Awake()
     {
@@ -36,26 +35,22 @@ public class Character : MonoBehaviour
 
     private void OnEnable()
     {
-        _collisions.EnemyCollided += GetDamage;
+        _collisions.EnemyCollided += TakeDamage;
         _movement.Jumped += _sounds.PlayJumpSound;
         _collisions.EnemyWeakSpotCollided += _movement.JumpEnemy;
         _collisions.EnemyWeakSpotCollided += _attacker.Attack;
         _collisions.HealingCollided += Heal;
+        _health.Dead += Die;
     }
 
     private void OnDisable()
     {
-        _collisions.EnemyCollided -= GetDamage;
+        _collisions.EnemyCollided -= TakeDamage;
         _movement.Jumped -= _sounds.PlayJumpSound;
         _collisions.EnemyWeakSpotCollided -= _movement.JumpEnemy;
         _collisions.EnemyWeakSpotCollided -= _attacker.Attack;
         _collisions.HealingCollided -= Heal;
-    }
-
-    public void SetHealth(int startHealth, int maxHealth)
-    {
-        Health = startHealth;
-        _maxHealth = maxHealth;
+        _health.Dead -= Die;
     }
 
     public void SetDisable()
@@ -66,18 +61,10 @@ public class Character : MonoBehaviour
         _isDisable = true;
     }
 
-    public void SetDead()
-    {
-        _animations.SetDead();
-        _sounds.PlayDamageSound();
-        SetDisable();
-        _collisions.ChangeLayer(true);
-        Dead?.Invoke();
-    }
-
-    public void Respawn()
+    public void Respawn(int startHealth, int maxHealth)
     {
         Respawned?.Invoke();
+        _health.Set(startHealth, maxHealth);
         _movement.SetEnable();
         _sounds.EnableSound();
         _animations.SetRespawned();
@@ -90,29 +77,33 @@ public class Character : MonoBehaviour
         return _isDisable == false && _collisions.IsStuned == false;
     }
 
-    private void GetDamage()
+    private void TakeDamage(EnemyBody enemy)
     {
-        Health--;
+        _health.Decrease(enemy.Damage);
 
-        if (Health > 0)
+        if (_health.Current > 0)
         {
             _animations.SetDamaged();
             _sounds.PlayDamageSound();
-            _collisions.GetStuned();
-        }
-        else if (Health <= 0)
-        {
-            SetDead();
+            _collisions.Stun();
         }
     }
 
-    private void Heal(Healing healing)
+    private void Heal(Healing medKit)
     {
-        if (Health < _maxHealth)
+        if (_health.CanIncrease(medKit.Power))
         {
-            healing.Collect();
-            Health++;
+            medKit.Collect();
             Healed?.Invoke();
         }
+    }
+
+    private void Die()
+    {
+        _animations.SetDead();
+        _sounds.PlayDamageSound();
+        SetDisable();
+        _collisions.ChangeLayer(true);
+        Dead?.Invoke();
     }
 }

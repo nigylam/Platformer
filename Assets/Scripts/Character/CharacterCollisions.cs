@@ -11,7 +11,7 @@ public class CharacterCollisions : MonoBehaviour
 
     public bool IsStuned => _isStuned;
 
-    public event Action EnemyCollided;
+    public event Action<EnemyBody> EnemyCollided;
     public event Action<Gem> GemCollided;
     public event Action<Healing> HealingCollided;
     public event Action<EnemyWeakSpot> EnemyWeakSpotCollided;
@@ -34,14 +34,14 @@ public class CharacterCollisions : MonoBehaviour
         if (other.gameObject.TryGetComponent(out Healing healing))
             HealingCollided?.Invoke(healing);
 
-        if (other.gameObject.TryGetComponent(out EnemyBody _))
+        if (other.gameObject.TryGetComponent(out EnemyBody enemy))
         {
-            EnemyCollided?.Invoke();
+            EnemyCollided?.Invoke(enemy);
         }
 
-        if (other.gameObject.TryGetComponent(out EnemyWeakSpot enemy))
+        if (other.gameObject.TryGetComponent(out EnemyWeakSpot enemyWeakSpot))
         {
-            EnemyWeakSpotCollided?.Invoke(enemy);
+            EnemyWeakSpotCollided?.Invoke(enemyWeakSpot);
         }
     }
 
@@ -59,7 +59,7 @@ public class CharacterCollisions : MonoBehaviour
         }
     }
 
-    public void GetStuned()
+    public void Stun()
     {
         ChangeLayer(true);
         _stunStop = StartCoroutine(DisableStuned());
