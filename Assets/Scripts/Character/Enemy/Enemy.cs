@@ -7,33 +7,27 @@ public class Enemy : MonoBehaviour
 
     [Header("Links")]
     [SerializeField] private Animator _animator;
-    [SerializeField] private Collider2D _bodyCollider;
-    [SerializeField] private Collider2D _weekPlaceCollider;
+    [SerializeField] private Collider2D _collider;
     [SerializeField] private AudioSource _dieSound;
-    [SerializeField] private EnemyBody _body;
-    [SerializeField] private EnemyWeakSpot _weakSpot;
     [SerializeField] private EnemyPatrol _patrol;
     [SerializeField] private Fliper _fliper;
     [SerializeField] private Health _health;
 
     [Header("Stats")]
     [SerializeField] private int _damage = 1;
+    [SerializeField] private float _rewardSpawnHeight = -4;
 
     public event Action<Vector2> Dead;
 
-    public float JumpPadForce { get; private set; } = 3f;
+    public int Damage => _damage;
 
     private void OnEnable()
     {
-        _body.PreparedForDisable += Disable;
-        _weakSpot.Damaged += TakeDamage;
         _health.Dead += Die;
     }    
     
     private void OnDisable()
     {
-        _body.PreparedForDisable -= Disable;
-        _weakSpot.Damaged -= TakeDamage;
         _health.Dead -= Die;
     }
 
@@ -42,27 +36,25 @@ public class Enemy : MonoBehaviour
         gameObject.SetActive(true);
         _patrol.Respawn();
         _animator.enabled = true;
-        _bodyCollider.enabled = true;
-        _weekPlaceCollider.enabled = true;
-        _body.Set(_damage);
+        _collider.enabled = true;
     }
 
-    private void TakeDamage(int damage)
+    public void TakeDamage(int damage = 1)
     {
         _health.Decrease(damage);
     }
 
     private void Die()
     {
-        Dead?.Invoke(transform.position);
-        _bodyCollider.enabled = false;
+        _collider.enabled = false;
         _patrol.Stop();
         _dieSound.Play();
         _animator.Play(DieAnimation);
     }
 
-    private void Disable()
+    public void OnAnimationEnding()
     {
         gameObject.SetActive(false);
+        Dead?.Invoke(new Vector2(transform.position.x, _rewardSpawnHeight));
     }
 }

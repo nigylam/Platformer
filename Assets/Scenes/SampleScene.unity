@@ -3287,7 +3287,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3404059410923677818, guid: 4748f78ca38235c4694da243613b5b97, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -1.2609062
+      value: -0.0009059906
       objectReference: {fileID: 0}
     - target: {fileID: 3404059410923677818, guid: 4748f78ca38235c4694da243613b5b97, type: 3}
       propertyPath: m_LocalPosition.z
@@ -3356,7 +3356,7 @@ PrefabInstance:
     - target: {fileID: 7006237858773364321, guid: 4748f78ca38235c4694da243613b5b97, type: 3}
       propertyPath: _bodyCollider
       value: 
-      objectReference: {fileID: 923752812}
+      objectReference: {fileID: 0}
     - target: {fileID: 7990581797122208932, guid: 4748f78ca38235c4694da243613b5b97, type: 3}
       propertyPath: m_Name
       value: Enemy (1)
@@ -3366,11 +3366,6 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 4748f78ca38235c4694da243613b5b97, type: 3}
---- !u!61 &923752812 stripped
-BoxCollider2D:
-  m_CorrespondingSourceObject: {fileID: 2487893657693423412, guid: 4748f78ca38235c4694da243613b5b97, type: 3}
-  m_PrefabInstance: {fileID: 923752811}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &931464786
 GameObject:
   m_ObjectHideFlags: 0
@@ -3597,7 +3592,7 @@ Transform:
   m_GameObject: {fileID: 1112395244}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 6.8280206, y: -4.037936, z: -0.049909543}
+  m_LocalPosition: {x: 6.8280206, y: -4.11, z: -0.049909543}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -3889,7 +3884,7 @@ Transform:
   m_GameObject: {fileID: 1414571810}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -10.9, y: -1.77, z: 0}
+  m_LocalPosition: {x: -11.8, y: -2.61, z: 0}
   m_LocalScale: {x: 10, y: 10, z: 10}
   m_ConstrainProportionsScale: 1
   m_Children:
@@ -4014,6 +4009,7 @@ MonoBehaviour:
   _movement: {fileID: 1414571829}
   _speed: 8
   _jumpForce: 10
+  _damageEnemyHeightDelta: 1.4
 --- !u!114 &1414571822
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5585,7 +5581,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3404059410923677818, guid: 4748f78ca38235c4694da243613b5b97, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -1.25
+      value: 0.01
       objectReference: {fileID: 0}
     - target: {fileID: 3404059410923677818, guid: 4748f78ca38235c4694da243613b5b97, type: 3}
       propertyPath: m_LocalPosition.z
@@ -5631,10 +5627,18 @@ PrefabInstance:
       propertyPath: _patrolPoints.Array.data[1]
       value: 
       objectReference: {fileID: 1434586302}
+    - target: {fileID: 3833526436821683225, guid: 4748f78ca38235c4694da243613b5b97, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 5117530552036593685, guid: 4748f78ca38235c4694da243613b5b97, type: 3}
       propertyPath: _character
       value: 
       objectReference: {fileID: 1414571821}
+    - target: {fileID: 6330822257570295608, guid: 4748f78ca38235c4694da243613b5b97, type: 3}
+      propertyPath: m_SortingOrder
+      value: 3
+      objectReference: {fileID: 0}
     - target: {fileID: 6560528025430292462, guid: 4748f78ca38235c4694da243613b5b97, type: 3}
       propertyPath: _enemy
       value: 
@@ -5654,21 +5658,20 @@ PrefabInstance:
     - target: {fileID: 7006237858773364321, guid: 4748f78ca38235c4694da243613b5b97, type: 3}
       propertyPath: _bodyCollider
       value: 
-      objectReference: {fileID: 922025811614485225}
+      objectReference: {fileID: 0}
     - target: {fileID: 7990581797122208932, guid: 4748f78ca38235c4694da243613b5b97, type: 3}
       propertyPath: m_Name
       value: Enemy
+      objectReference: {fileID: 0}
+    - target: {fileID: 8697646717261957074, guid: 4748f78ca38235c4694da243613b5b97, type: 3}
+      propertyPath: m_ConstrainProportionsScale
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 4748f78ca38235c4694da243613b5b97, type: 3}
---- !u!61 &922025811614485225 stripped
-BoxCollider2D:
-  m_CorrespondingSourceObject: {fileID: 2487893657693423412, guid: 4748f78ca38235c4694da243613b5b97, type: 3}
-  m_PrefabInstance: {fileID: 922025811614485224}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0

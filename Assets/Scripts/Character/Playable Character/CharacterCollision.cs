@@ -11,15 +11,13 @@ public class CharacterCollision : MonoBehaviour
 
     public bool IsStuned => _isStuned;
 
-    public event Action<EnemyBody> EnemyCollided;
+    public event Action<Enemy, float> EnemyCollided;
     public event Action<Gem> GemCollided;
     public event Action<Medkit> MedkitCollided;
-    public event Action<EnemyWeakSpot> EnemyWeakSpotCollided;
 
     private bool _isStuned = false;
     private WaitForSeconds _stunedTimeWait;
     private Coroutine _stunStop;
-    private GroundChecker _groundChecker;
 
     private void Awake()
     {
@@ -28,30 +26,18 @@ public class CharacterCollision : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D other)
     {
-        //Debug.Log("collide");
-
         if (other.gameObject.TryGetComponent(out Gem gem))
             GemCollided?.Invoke(gem);
 
         if (other.gameObject.TryGetComponent(out Medkit healing))
             MedkitCollided?.Invoke(healing);
 
-        if (other.gameObject.TryGetComponent(out EnemyBody enemy))
+        if (other.gameObject.TryGetComponent(out Enemy enemy))
         {
-            //Debug.Log("damaged");
-            EnemyCollided?.Invoke(enemy);
+            float height = transform.position.y - enemy.transform.position.y;
+            Debug.Log(height);  
+            EnemyCollided?.Invoke(enemy, height);
         }
-
-        if (other.gameObject.TryGetComponent(out EnemyWeakSpot enemyWeakSpot))
-        {
-            //Debug.Log("attack");
-            EnemyWeakSpotCollided?.Invoke(enemyWeakSpot);
-        }
-    }
-
-    public void SetGroundChecker(GroundChecker groundChecker)
-    {
-        _groundChecker = groundChecker;
     }
 
     public void CancelStun()
@@ -76,13 +62,10 @@ public class CharacterCollision : MonoBehaviour
         if (_isStuned == false)
         {
             gameObject.layer = LayerMask.NameToLayer(NormalLayer);
-            _groundChecker.gameObject.layer = LayerMask.NameToLayer(NormalLayer);
         }
         else
         {
             gameObject.layer = LayerMask.NameToLayer(StunedLayer);
-            //_groundChecker.gameObject.layer = LayerMask.NameToLayer(StunedLayer);
-            //Debug.Log("Layer changed");
         }
     }
 

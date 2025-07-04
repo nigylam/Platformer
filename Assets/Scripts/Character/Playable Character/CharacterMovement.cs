@@ -44,14 +44,14 @@ public class CharacterMovement : Movement
         _jumpForce = jumpForce;
     }
 
-    public void JumpEnemy(EnemyWeakSpot _)
+    public void JumpEnemy()
     {
         _rigidbody.velocity = new Vector2(_rigidbody.velocity.x, _jumpForce);
     }
 
     private void Jump()
     {
-        if (CanJump()) // проверить, а норм ли будет без _isDisable
+        if (CanJump())
         {
             Jumped?.Invoke();
             _canDoSecondJump = _groundChecker.IsGrounded();

@@ -3,6 +3,7 @@ using UnityEngine;
 
 public class Character : MonoBehaviour
 {
+    [Header("Links")]
     [SerializeField] private UserInput _userInput;
     [SerializeField] private GroundChecker _groundChecker;
     [SerializeField] private CharacterCollision _collision;
@@ -11,8 +12,11 @@ public class Character : MonoBehaviour
     [SerializeField] private CharacterAttacker _attacker;
     [SerializeField] private Health _health;
     [SerializeField] private CharacterMovement _movement;
+
+    [Header("Stats")]
     [SerializeField] private float _speed;
     [SerializeField] private float _jumpForce;
+    [SerializeField] private float _damageEnemyHeightDelta;
 
     public event Action Respawned;
     public event Action Dead;
@@ -24,7 +28,6 @@ public class Character : MonoBehaviour
 
     private void Start()
     {
-        _collision.SetGroundChecker(_groundChecker);
         _movement.Set(_groundChecker, _speed, _jumpForce);
     }
 
@@ -35,20 +38,16 @@ public class Character : MonoBehaviour
 
     private void OnEnable()
     {
-        _collision.EnemyCollided += TakeDamage;
+        _collision.EnemyCollided += ReleaseEnemyCollision;
         _movement.Jumped += _sound.PlayJumpSound;
-        _collision.EnemyWeakSpotCollided += _movement.JumpEnemy;
-        _collision.EnemyWeakSpotCollided += _attacker.Attack;
         _collision.MedkitCollided += Heal;
         _health.Dead += Die;
     }
 
     private void OnDisable()
     {
-        _collision.EnemyCollided -= TakeDamage;
+        _collision.EnemyCollided -= ReleaseEnemyCollision;
         _movement.Jumped -= _sound.PlayJumpSound;
-        _collision.EnemyWeakSpotCollided -= _movement.JumpEnemy;
-        _collision.EnemyWeakSpotCollided -= _attacker.Attack;
         _collision.MedkitCollided -= Heal;
         _health.Dead -= Die;
     }
@@ -78,9 +77,22 @@ public class Character : MonoBehaviour
         return _isDisable == false && _collision.IsStuned == false;
     }
 
-    private void TakeDamage(EnemyBody enemy)
+    private void ReleaseEnemyCollision(Enemy enemy, float heightDelta)
     {
-        _health.Decrease(enemy.Damage);
+        if(heightDelta <= _damageEnemyHeightDelta)
+        {
+            TakeDamage(enemy.Damage);
+        }
+        else
+        {
+            _attacker.Attack(enemy);
+            _movement.JumpEnemy();
+        }
+    }
+
+    private void TakeDamage(int damage)
+    {
+        _health.Decrease(damage);
 
         if (_health.Current > 0)
         {

@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class CharacterAttacker : MonoBehaviour
 {
-    public void Attack(EnemyWeakSpot enemy)
+    public void Attack(Enemy enemy)
     {
         enemy.TakeDamage();
     }
