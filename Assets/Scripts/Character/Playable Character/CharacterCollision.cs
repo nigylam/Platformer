@@ -28,6 +28,8 @@ public class CharacterCollision : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D other)
     {
+        //Debug.Log("collide");
+
         if (other.gameObject.TryGetComponent(out Gem gem))
             GemCollided?.Invoke(gem);
 
@@ -36,11 +38,13 @@ public class CharacterCollision : MonoBehaviour
 
         if (other.gameObject.TryGetComponent(out EnemyBody enemy))
         {
+            //Debug.Log("damaged");
             EnemyCollided?.Invoke(enemy);
         }
 
         if (other.gameObject.TryGetComponent(out EnemyWeakSpot enemyWeakSpot))
         {
+            //Debug.Log("attack");
             EnemyWeakSpotCollided?.Invoke(enemyWeakSpot);
         }
     }
@@ -77,7 +81,8 @@ public class CharacterCollision : MonoBehaviour
         else
         {
             gameObject.layer = LayerMask.NameToLayer(StunedLayer);
-            _groundChecker.gameObject.layer = LayerMask.NameToLayer(StunedLayer);
+            //_groundChecker.gameObject.layer = LayerMask.NameToLayer(StunedLayer);
+            //Debug.Log("Layer changed");
         }
     }
 

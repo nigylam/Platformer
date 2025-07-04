@@ -65,7 +65,7 @@ BoxCollider2D:
   m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0.5782553, y: 0.98963666}
+  m_Offset: {x: 0.6120951, y: 0.98963666}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0, y: 0}
@@ -76,7 +76,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 1.9530694, y: 0.33794832}
+  m_Size: {x: 1.2988381, y: 0.33794832}
   m_EdgeRadius: 0
 --- !u!114 &8915783267651249738
 MonoBehaviour:
@@ -352,6 +352,8 @@ GameObject:
   - component: {fileID: 163301399150771275}
   - component: {fileID: 7491250978158696682}
   - component: {fileID: -7650883015542049174}
+  - component: {fileID: 3588521365859018353}
+  - component: {fileID: 5117530552036593685}
   m_Layer: 0
   m_Name: Enemy
   m_TagString: Untagged
@@ -395,9 +397,8 @@ MonoBehaviour:
   _dieSound: {fileID: 0}
   _body: {fileID: 6560528025430292462}
   _weakSpot: {fileID: 8915783267651249738}
-  _movement: {fileID: 163301399150771275}
+  _patrol: {fileID: 3588521365859018353}
   _fliper: {fileID: 7491250978158696682}
-  _character: {fileID: 0}
   _health: {fileID: -7650883015542049174}
   _damage: 1
 --- !u!114 &163301399150771275
@@ -412,15 +413,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 716ef38a88a03bb41ae649386d30c5ac, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _closeDistanceToTarget: 1
-  _speedPatrolling: 2
-  _speedPursuing: 3
-  _pursuingDistance: 6
-  _pursuingVerticalDistance: 1
-  _patrolPoints:
-  - {fileID: 0}
-  - {fileID: 0}
-  _pursuitSign: {fileID: 3833526436821683225}
 --- !u!114 &7491250978158696682
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -446,3 +438,37 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cd16444a0ea78994a9087f3eada90379, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &3588521365859018353
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7990581797122208932}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6bb1271f2899c8c45b3e13663cad2d7c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _closeDistanceToTarget: 2
+  _speedPatrol: 2
+  _speedPursuit: 3
+  _patrolPoints: []
+  _movement: {fileID: 163301399150771275}
+  _pursuit: {fileID: 5117530552036593685}
+--- !u!114 &5117530552036593685
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7990581797122208932}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 63e6fe36caf63a54492fbbc3c3970389, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _pursuingDistance: 6
+  _pursuingVerticalDistance: 1
+  _pursuitSign: {fileID: 3833526436821683225}
+  _character: {fileID: 0}

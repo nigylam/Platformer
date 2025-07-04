@@ -4,6 +4,6 @@ public class CharacterAttacker : MonoBehaviour
 {
     public void Attack(EnemyWeakSpot enemy)
     {
-        enemy.GetDamage();
+        enemy.TakeDamage();
     }
 }

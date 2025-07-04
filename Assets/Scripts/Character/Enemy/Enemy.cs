@@ -12,9 +12,8 @@ public class Enemy : MonoBehaviour
     [SerializeField] private AudioSource _dieSound;
     [SerializeField] private EnemyBody _body;
     [SerializeField] private EnemyWeakSpot _weakSpot;
-    [SerializeField] private EnemyMovement _movement;
+    [SerializeField] private EnemyPatrol _patrol;
     [SerializeField] private Fliper _fliper;
-    [SerializeField] private Character _character;
     [SerializeField] private Health _health;
 
     [Header("Stats")]
@@ -27,33 +26,28 @@ public class Enemy : MonoBehaviour
     private void OnEnable()
     {
         _body.PreparedForDisable += Disable;
-        _weakSpot.Damaged += GetDamage;
+        _weakSpot.Damaged += TakeDamage;
         _health.Dead += Die;
     }    
     
     private void OnDisable()
     {
         _body.PreparedForDisable -= Disable;
-        _weakSpot.Damaged -= GetDamage;
+        _weakSpot.Damaged -= TakeDamage;
         _health.Dead -= Die;
-    }
-
-    private void Awake()
-    {
-        _movement.SetLinks(_fliper, _character);
     }
 
     public void Respawn()
     {
         gameObject.SetActive(true);
-        _movement.Respawn();
+        _patrol.Respawn();
         _animator.enabled = true;
         _bodyCollider.enabled = true;
         _weekPlaceCollider.enabled = true;
         _body.Set(_damage);
     }
 
-    private void GetDamage(int damage)
+    private void TakeDamage(int damage)
     {
         _health.Decrease(damage);
     }
@@ -62,7 +56,7 @@ public class Enemy : MonoBehaviour
     {
         Dead?.Invoke(transform.position);
         _bodyCollider.enabled = false;
-        _movement.Die(transform.position);
+        _patrol.Stop();
         _dieSound.Play();
         _animator.Play(DieAnimation);
     }

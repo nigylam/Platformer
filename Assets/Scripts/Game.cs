@@ -12,7 +12,7 @@ public class Game : MonoBehaviour
     [SerializeField] private Character _character;
     [SerializeField] private EnemySpawner _enemySpawner;
     [SerializeField] private CollectableSpawner _gemSpawner;
-    [SerializeField] private CollectableSpawner _healingSpawner;
+    [SerializeField] private CollectableSpawner _medkitSpawner;
 
     public int GemsMax => _gemsMax;
 
@@ -43,7 +43,6 @@ public class Game : MonoBehaviour
 
     private void Start()
     {
-
         Restart();
     }
 
@@ -69,8 +68,8 @@ public class Game : MonoBehaviour
         _gemSpawner.Spawn();
         _gemsMax = _gemSpawner.Count + _enemySpawner.Count;
         GemsCount = 0;
-        _healingSpawner.Despawn();
-        _healingSpawner.Spawn();
+        _medkitSpawner.Despawn();
+        _medkitSpawner.Spawn();
         _character.Respawn(_characterStartHealth, _characterMaxHealth);
         _enemySpawner.Respawn();
         Restarted?.Invoke();
@@ -106,7 +105,7 @@ public class Game : MonoBehaviour
 
     private void CollectHealing()
     {
-        _healingSpawner.Sounds.Play();
+        _medkitSpawner.Sounds.Play();
     }
 
     private void SpawnReward(Vector2 position)

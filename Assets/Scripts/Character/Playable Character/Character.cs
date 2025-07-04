@@ -5,13 +5,14 @@ public class Character : MonoBehaviour
 {
     [SerializeField] private UserInput _userInput;
     [SerializeField] private GroundChecker _groundChecker;
-    [SerializeField] private CharacterMovement _movement;
     [SerializeField] private CharacterCollision _collision;
     [SerializeField] private CharacterAnimation _animation;
     [SerializeField] private CharacterSound _sound;
-    [SerializeField] private Fliper _fliper;
     [SerializeField] private CharacterAttacker _attacker;
     [SerializeField] private Health _health;
+    [SerializeField] private CharacterMovement _movement;
+    [SerializeField] private float _speed;
+    [SerializeField] private float _jumpForce;
 
     public event Action Respawned;
     public event Action Dead;
@@ -21,15 +22,14 @@ public class Character : MonoBehaviour
 
     private bool _isDisable = false;
 
-    private void Awake()
+    private void Start()
     {
-        _movement.SetGroundChecker(_groundChecker);
         _collision.SetGroundChecker(_groundChecker);
+        _movement.Set(_groundChecker, _speed, _jumpForce);
     }
 
     private void Update()
     {
-        _fliper.SetHorizontalMoving(UserInput.HorizontalRaw);
         _animation.SetTriggers(_groundChecker.IsGrounded(), _collision.IsStuned, _movement.RigidbodyVelocityY, _movement.RigidbodyVelocityX);
     }
 
@@ -55,7 +55,7 @@ public class Character : MonoBehaviour
 
     public void SetDisable()
     {
-        _movement.SetDisable();
+        _movement.ChangeSpeed(0);
         _sound.DisableSound();
         _collision.CancelStun();
         _isDisable = true;
@@ -65,7 +65,8 @@ public class Character : MonoBehaviour
     {
         Respawned?.Invoke();
         _health.Set(startHealth, maxHealth);
-        _movement.SetEnable();
+        _movement.ChangeSpeed(_speed);
+        _movement.Reset();
         _sound.EnableSound();
         _animation.SetRespawned();
         _collision.CancelStun();

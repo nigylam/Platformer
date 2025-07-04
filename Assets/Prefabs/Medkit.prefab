@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 1959577715563666652}
   - component: {fileID: -8174291417966221311}
   - component: {fileID: -4956993742804395091}
-  - component: {fileID: -8978043988146475144}
+  - component: {fileID: 2654879446902660240}
   m_Layer: 0
   m_Name: Medkit
   m_TagString: Untagged
@@ -153,7 +153,7 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
---- !u!114 &-8978043988146475144
+--- !u!114 &2654879446902660240
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -162,6 +162,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 2608573915311709554}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 757bf65c60082724d872bd159aefae40, type: 3}
+  m_Script: {fileID: 11500000, guid: 5c59bffc339ac3343911ef3279e8ae07, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _power: 1
