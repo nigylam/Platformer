@@ -4,6 +4,7 @@ using UnityEngine;
 public class Health : MonoBehaviour
 {
     public event Action Dead;
+    public event Action Changed;
 
     public int Current
     {
@@ -12,33 +13,42 @@ public class Health : MonoBehaviour
         {
             _current = value;
 
-            if (_current > _max)
+            if (_current > Max)
             {
-                _current = _max;
+                _current = Max;
             }
             else if (_current <= 0)
             {
-                Dead.Invoke();
+                _current = 0;
+                Dead?.Invoke();
             }
         }
     }
 
-    private int _max;
+    public int Max { get; private set; }
+
     private int _current;
 
     public void Set(int start = 1, int max = 1)
     {
         _current = start;
-        _max = max;
+        Max = max;
     }
 
-    public void Decrease(int amount) => Current -= amount;
+    public void Decrease(int amount)
+    {
+        Current -= amount;
+        Changed?.Invoke();
+    }
+        
+
     public bool CanIncrease(int amount)
     {
-        if (Current < _max)
+        if (Current < Max)
         {
             Current += amount;
-            
+            Changed?.Invoke();
+
             return true;
         }
 
