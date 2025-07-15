@@ -302,7 +302,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Health: {fileID: 278479931}
-  Slider: {fileID: 278227310}
 --- !u!1 &278479929
 GameObject:
   m_ObjectHideFlags: 0
@@ -361,9 +360,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _start: 10
-  _max: 12
-  _heal: 10
-  _damage: 20
+  _max: 100
+  _heal: 23
+  _damage: 33
 --- !u!1 &338961846
 GameObject:
   m_ObjectHideFlags: 0
@@ -602,7 +601,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Health: {fileID: 278479931}
-  Slider: {fileID: 401744649}
   _changeSpeed: 0.01
   _smoothStep: 0.01
 --- !u!1 &464913587
@@ -638,7 +636,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0.25}
   m_AnchorMax: {x: 1, y: 0.75}
-  m_AnchoredPosition: {x: -2.1189, y: 0}
+  m_AnchoredPosition: {x: -2.1188965, y: 0}
   m_SizeDelta: {x: -14.4365, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &472438539

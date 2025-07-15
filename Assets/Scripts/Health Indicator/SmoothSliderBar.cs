@@ -7,34 +7,37 @@ public class SmoothSliderBar : SliderBar
     [SerializeField] private float _changeSpeed = 0.1f;
     [SerializeField] private float _smoothStep = 0.01f;
 
-    private float _previousValue = 0;
     private WaitForSeconds _smoothStepDelay;
     private Coroutine _smoothChange;
 
-    private void Awake()
-    {
-        _smoothStepDelay = new WaitForSeconds(_changeSpeed);
-    }
-
     public override void ChangeValue()
     {
-        float currentValue = Convert.ToSingle(Health.Current) / Health.Max;
+        float targetValue = Convert.ToSingle(Health.Current) / Health.Max;
 
         if (_smoothChange != null)
             StopCoroutine(_smoothChange);
 
-        _smoothChange = StartCoroutine(SmoothChangeValue(currentValue, _previousValue));
-        _previousValue = currentValue;
+        _smoothChange = StartCoroutine(SmoothChangeValue(targetValue));
     }
 
-    private IEnumerator SmoothChangeValue(float currentValue, float previousValue)
+    protected override void Initialize()
     {
-        while (previousValue != currentValue)
+        base.Initialize();
+        _smoothStepDelay = new WaitForSeconds(_changeSpeed);
+    }
+
+    private IEnumerator SmoothChangeValue(float targetValue)
+    {
+        float currentValue = Slider.value;
+
+        while (Mathf.Approximately(currentValue, targetValue) == false)
         {
-            previousValue = Mathf.MoveTowards(previousValue, currentValue, _smoothStep);
-            Slider.SetValueWithoutNotify(previousValue);
+            currentValue = Mathf.MoveTowards(currentValue, targetValue, _smoothStep);
+            Slider.SetValueWithoutNotify(currentValue);
 
             yield return _smoothStepDelay;
         }
+
+        Slider.SetValueWithoutNotify(targetValue);
     }
 }
