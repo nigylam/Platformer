@@ -34,6 +34,7 @@ public class Enemy : MonoBehaviour
     public void Respawn()
     {
         gameObject.SetActive(true);
+        _health.Set();
         _patrol.Respawn();
         _animator.enabled = true;
         _collider.enabled = true;

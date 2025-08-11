@@ -3,7 +3,7 @@ using UnityEngine;
 [RequireComponent(typeof(EnemyMovement))]
 public class EnemyPatrol : MonoBehaviour
 {
-    [SerializeField] private float _closeDistanceToTarget = 2f;
+    [SerializeField] private float _closeDistanceToTarget = 1f;
     [SerializeField] private float _speedPatrol = 2f;
     [SerializeField] private float _speedPursuit = 3f;
     [SerializeField] private Transform[] _patrolPoints;

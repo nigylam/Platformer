@@ -4,7 +4,13 @@ public class Fliper : MonoBehaviour
 {
     [SerializeField] private bool _isFacingRight;
 
+    private SpriteRenderer _spriteRenderer;
     private float _horizontalMoving;
+
+    private void Awake()
+    {
+        _spriteRenderer = GetComponent<SpriteRenderer>();
+    }
 
     private void Update()
     {
@@ -21,9 +27,8 @@ public class Fliper : MonoBehaviour
         if (_isFacingRight && _horizontalMoving < 0 || _isFacingRight == false && _horizontalMoving > 0)
         {
             _isFacingRight = !_isFacingRight;
-            Vector2 localScale = transform.localScale;
-            localScale.x *= -1f;
-            transform.localScale = localScale;
+            bool isFliped = _spriteRenderer.flipX;
+            _spriteRenderer.flipX = !isFliped;
         }
     }
 }

@@ -21,3 +21,4 @@ public abstract class Bar : MonoBehaviour
 
     public abstract void ChangeValue();
 }
+

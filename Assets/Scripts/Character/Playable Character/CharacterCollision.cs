@@ -35,7 +35,6 @@ public class CharacterCollision : MonoBehaviour
         if (other.gameObject.TryGetComponent(out Enemy enemy))
         {
             float height = transform.position.y - enemy.transform.position.y;
-            Debug.Log(height);  
             EnemyCollided?.Invoke(enemy, height);
         }
     }

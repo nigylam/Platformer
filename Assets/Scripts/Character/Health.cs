@@ -33,6 +33,7 @@ public class Health : MonoBehaviour
     {
         _current = start;
         Max = max;
+        Changed?.Invoke();
     }
 
     public void Decrease(int amount)
