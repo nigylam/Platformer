@@ -12,27 +12,31 @@ public class EnemyPatrol : MonoBehaviour
 
     private int _currentPatrolPoint = 0;
     private Vector2 _currentDestination;
+    private bool _isPatroling = true;
 
     private void Awake()
     {
         _currentDestination = _patrolPoints[_currentPatrolPoint].position;
         _movement = GetComponent<EnemyMovement>();
     }
-     
+
     private void Update()
     {
-        Patrolling();
+        if (_isPatroling)
+            Patrolling();
     }
 
     public void Respawn()
     {
         _movement.ChangeSpeed(_speedPatrol);
         _movement.Reset();
+        _isPatroling = true;
     }
 
     public void Stop()
     {
         _movement.ChangeSpeed(0);
+        _isPatroling = false;
     }
 
     private void Patrolling()

@@ -16,6 +16,8 @@ public class Enemy : MonoBehaviour
     [Header("Stats")]
     [SerializeField] private int _damage = 1;
     [SerializeField] private float _rewardSpawnHeight = -4;
+    [SerializeField] private int _hpCurrent = 2;
+    [SerializeField] private int _hpMax = 2;
 
     public event Action<Vector2> Dead;
 
@@ -34,7 +36,7 @@ public class Enemy : MonoBehaviour
     public void Respawn()
     {
         gameObject.SetActive(true);
-        _health.Set();
+        _health.Set(_hpCurrent, _hpMax);
         _patrol.Respawn();
         _animator.enabled = true;
         _collider.enabled = true;

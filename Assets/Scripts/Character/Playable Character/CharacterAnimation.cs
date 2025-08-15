@@ -40,7 +40,9 @@ public class CharacterAnimation : MonoBehaviour
     public void SetDead()
     {
         _animator.Play(DamagedState);
-        StopCoroutine(_setDamagedStop);
+
+        if (_setDamagedStop != null)
+            StopCoroutine(_setDamagedStop);
     }
 
     public void SetRespawned() => _animator.Play(IdleState);

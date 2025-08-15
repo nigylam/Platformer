@@ -44,7 +44,9 @@ public class CharacterCollision : MonoBehaviour
         if (_isStuned)
         {
             Unstan();
-            StopCoroutine(_stunStop);
+
+            if (_stunStop != null)
+                StopCoroutine(_stunStop);
         }
     }
 

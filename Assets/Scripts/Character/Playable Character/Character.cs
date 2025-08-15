@@ -12,6 +12,8 @@ public class Character : MonoBehaviour
     [SerializeField] private CharacterAttacker _attacker;
     [SerializeField] private Health _health;
     [SerializeField] private CharacterMovement _movement;
+    [SerializeField] private VampireCircle _vampireCircle;
+    [SerializeField] private VampireAbility _vampireAbility;
 
     [Header("Stats")]
     [SerializeField] private float _speed;
@@ -34,6 +36,7 @@ public class Character : MonoBehaviour
     private void Update()
     {
         _animation.SetTriggers(_groundChecker.IsGrounded(), _collision.IsStuned, _movement.RigidbodyVelocityY, _movement.RigidbodyVelocityX);
+        _vampireAbility.Work();
     }
 
     private void OnEnable()
@@ -42,6 +45,8 @@ public class Character : MonoBehaviour
         _movement.Jumped += _sound.PlayJumpSound;
         _collision.MedkitCollided += Heal;
         _health.Dead += Die;
+        _vampireCircle.EnemyEntered += _vampireAbility.AddEnemy;
+        _vampireCircle.EnemyExited += _vampireAbility.RemoveEnemy;
     }
 
     private void OnDisable()
@@ -50,6 +55,8 @@ public class Character : MonoBehaviour
         _movement.Jumped -= _sound.PlayJumpSound;
         _collision.MedkitCollided -= Heal;
         _health.Dead -= Die;
+        _vampireCircle.EnemyEntered -= _vampireAbility.AddEnemy;
+        _vampireCircle.EnemyExited -= _vampireAbility.RemoveEnemy;
     }
 
     public void SetDisable()
