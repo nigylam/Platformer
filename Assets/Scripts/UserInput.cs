@@ -6,9 +6,10 @@ public class UserInput : MonoBehaviour
     private const string Horizontal = nameof(Horizontal);
     private const string Vertical = nameof(Vertical);
 
-    public static event Action JumpKeyPressed; 
+    public static event Action JumpKeyPressed;
+    public static event Action AbilityKeyPressed;
 
-    public static float HorizontalRaw {  get; private set; }
+    public static float HorizontalRaw { get; private set; }
 
     private void Update()
     {
@@ -18,5 +19,8 @@ public class UserInput : MonoBehaviour
         {
             JumpKeyPressed?.Invoke();
         }
+
+        if (Input.GetKeyDown(KeyCode.E))
+            AbilityKeyPressed?.Invoke();
     }
 }

@@ -8,37 +8,54 @@ public class VampireAbility : MonoBehaviour
     [SerializeField] private float _stealIntervalSec = 2f;
     [SerializeField] private Health _health;
 
-    private List<Enemy> _enemiesUnderAbility;
-    private bool _isActive = true;
+    private bool _isActive = false;
     private float _timer = 0f;
+    private List<Enemy> _enemiesUnderAbility;
+
+    private List<Enemy> EnemiesUnderAbility
+    {
+        get
+        {
+            return _enemiesUnderAbility;
+        }
+
+        set
+        {
+            _enemiesUnderAbility = value;
+
+            if (_enemiesUnderAbility.Count == 0)
+                _timer = _stealIntervalSec;
+        }
+    }
 
     private void Awake()
     {
         _enemiesUnderAbility = new List<Enemy>();
     }
+    
+    public void Activate(bool isActive)
+    {
+        _isActive = isActive;
+    }
 
     public void AddEnemy(Enemy enemy)
     {
-        _enemiesUnderAbility.Add(enemy);
-
-        enemy.TakeDamage(_hpStealingAmount);
-        _health.CanIncrease(_hpStealingAmount);
+        EnemiesUnderAbility.Add(enemy);
     }
 
     public void RemoveEnemy(Enemy enemy)
     {
-        _enemiesUnderAbility.Remove(enemy);
+        EnemiesUnderAbility.Remove(enemy);
     }
 
     public void Work()
     {
-        if (_isActive && _enemiesUnderAbility.Count > 0)
+        if (_isActive && EnemiesUnderAbility.Count > 0)
         {
             _timer += Time.deltaTime;
 
             if (_timer >= _stealIntervalSec)
             {
-                Debug.Log("stealed");
                 StealHp();
                 _timer = 0f;
             }
@@ -49,14 +66,10 @@ public class VampireAbility : MonoBehaviour
     {
         Enemy enemy;
 
-        if (_enemiesUnderAbility.Count == 1)
-        {
-            enemy = _enemiesUnderAbility[0];
-        }
+        if (EnemiesUnderAbility.Count == 1)
+            enemy = EnemiesUnderAbility[0];
         else
-        {
             enemy = GetNearestEnemy();
-        }
 
         enemy.TakeDamage(_hpStealingAmount);
         _health.CanIncrease(_hpStealingAmount);
@@ -67,7 +80,7 @@ public class VampireAbility : MonoBehaviour
         float closestDistanceSqr = float.MaxValue;
         Enemy nearestEnemy = null;
 
-        foreach (Enemy enemy in _enemiesUnderAbility)
+        foreach (Enemy enemy in EnemiesUnderAbility)
         {
             float distanceScr = Vector3Extensions.SqrDistance(gameObject.transform.position, enemy.transform.position);
 

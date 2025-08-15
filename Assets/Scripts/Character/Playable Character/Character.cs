@@ -14,6 +14,7 @@ public class Character : MonoBehaviour
     [SerializeField] private CharacterMovement _movement;
     [SerializeField] private VampireCircle _vampireCircle;
     [SerializeField] private VampireAbility _vampireAbility;
+    [SerializeField] private AbilityTrigger _abilityTrigger;
 
     [Header("Stats")]
     [SerializeField] private float _speed;
@@ -31,6 +32,7 @@ public class Character : MonoBehaviour
     private void Start()
     {
         _movement.Set(_groundChecker, _speed, _jumpForce);
+        _abilityTrigger.Initialize(_vampireAbility, _vampireCircle);
     }
 
     private void Update()
