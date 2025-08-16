@@ -37,7 +37,7 @@ public class CharacterMovement : Movement
         _rigidbody.velocity = new Vector2(horizontalMovement * Speed, _rigidbody.velocity.y);
     }
 
-    public void Set(GroundChecker groundChecker, float speed, float jumpForce)
+    public void Initialize(GroundChecker groundChecker, float speed, float jumpForce)
     {
         _groundChecker = groundChecker;
         Speed = speed;

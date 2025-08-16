@@ -29,10 +29,11 @@ public class Character : MonoBehaviour
 
     private bool _isDisable = false;
 
-    private void Start()
+    private void Awake()
     {
-        _movement.Set(_groundChecker, _speed, _jumpForce);
+        _movement.Initialize(_groundChecker, _speed, _jumpForce);
         _abilityTrigger.Initialize(_vampireAbility, _vampireCircle);
+        _vampireAbility.Initialize(_health);
     }
 
     private void Update()

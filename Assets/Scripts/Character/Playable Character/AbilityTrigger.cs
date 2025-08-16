@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using UnityEngine;
 
@@ -14,6 +15,8 @@ public class AbilityTrigger : MonoBehaviour
     private WaitForSeconds _cooldownDurationWait;
     private bool _isActive = false;
     private bool _canActivate = true;
+
+    public event Action<float> StartedChanging;
 
     private void Awake()
     {
@@ -46,6 +49,7 @@ public class AbilityTrigger : MonoBehaviour
             _ability.Activate(true);
             _vampireCircle.gameObject.SetActive(true);
             _abilityDeactivation = StartCoroutine(DeactivateAbility());
+            StartedChanging?.Invoke(_abilityDurationSec);
 
             if (_abilityCooldown != null)
                 StopCoroutine(_abilityCooldown);
@@ -58,8 +62,9 @@ public class AbilityTrigger : MonoBehaviour
         _ability.Activate(false);
         _vampireCircle.gameObject.SetActive(false);
         _abilityCooldown = StartCoroutine(CooldownAbility());
+        StartedChanging?.Invoke(_cooldownDurationSec);
 
-        if(_abilityDeactivation != null)
+        if (_abilityDeactivation != null)
             StopCoroutine(_abilityDeactivation);
     }
 

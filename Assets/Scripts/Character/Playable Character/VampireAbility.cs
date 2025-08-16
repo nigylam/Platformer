@@ -1,4 +1,3 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -6,51 +5,39 @@ public class VampireAbility : MonoBehaviour
 {
     [SerializeField] private int _hpStealingAmount = 1;
     [SerializeField] private float _stealIntervalSec = 2f;
-    [SerializeField] private Health _health;
 
     private bool _isActive = false;
     private float _timer = 0f;
     private List<Enemy> _enemiesUnderAbility;
-
-    private List<Enemy> EnemiesUnderAbility
-    {
-        get
-        {
-            return _enemiesUnderAbility;
-        }
-
-        set
-        {
-            _enemiesUnderAbility = value;
-
-            if (_enemiesUnderAbility.Count == 0)
-                _timer = _stealIntervalSec;
-        }
-    }
-
-    private void Awake()
+    private Health _health;
+    public void Initialize(Health health)
     {
         _enemiesUnderAbility = new List<Enemy>();
+        _health = health;
     }
     
     public void Activate(bool isActive)
     {
         _isActive = isActive;
+        _timer = _stealIntervalSec;
     }
 
     public void AddEnemy(Enemy enemy)
     {
-        EnemiesUnderAbility.Add(enemy);
+        _enemiesUnderAbility.Add(enemy);
     }
 
     public void RemoveEnemy(Enemy enemy)
     {
-        EnemiesUnderAbility.Remove(enemy);
+        _enemiesUnderAbility.Remove(enemy);
+
+        if (_enemiesUnderAbility.Count == 0)
+            _timer = _stealIntervalSec;
     }
 
     public void Work()
     {
-        if (_isActive && EnemiesUnderAbility.Count > 0)
+        if (_isActive && _enemiesUnderAbility.Count > 0)
         {
             _timer += Time.deltaTime;
 
@@ -66,8 +53,8 @@ public class VampireAbility : MonoBehaviour
     {
         Enemy enemy;
 
-        if (EnemiesUnderAbility.Count == 1)
-            enemy = EnemiesUnderAbility[0];
+        if (_enemiesUnderAbility.Count == 1)
+            enemy = _enemiesUnderAbility[0];
         else
             enemy = GetNearestEnemy();
 
@@ -80,7 +67,7 @@ public class VampireAbility : MonoBehaviour
         float closestDistanceSqr = float.MaxValue;
         Enemy nearestEnemy = null;
 
-        foreach (Enemy enemy in EnemiesUnderAbility)
+        foreach (Enemy enemy in _enemiesUnderAbility)
         {
             float distanceScr = Vector3Extensions.SqrDistance(gameObject.transform.position, enemy.transform.position);
 
