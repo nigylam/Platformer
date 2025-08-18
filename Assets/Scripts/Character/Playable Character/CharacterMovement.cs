@@ -6,28 +6,38 @@ public class CharacterMovement : Movement
 {
     [SerializeField] private Rigidbody2D _rigidbody;
 
+    private GroundChecker _groundChecker;
+    private UserInput _userInput;
+
+    private bool _canDoSecondJump = true;
+    private float _jumpForce;
+
     public event Action Jumped;
 
     public float RigidbodyVelocityY => _rigidbody.velocity.y;
     public float RigidbodyVelocityX => _rigidbody.velocity.x;
 
-    private bool _canDoSecondJump = true;
-    private GroundChecker _groundChecker;
-    private float _jumpForce;
-
     private void OnEnable()
     {
-        UserInput.JumpKeyPressed += Jump;
+        _userInput.JumpKeyPressed += Jump;
     }
 
     private void OnDisable()
     {
-        UserInput.JumpKeyPressed -= Jump;
+        _userInput.JumpKeyPressed -= Jump;
     }
 
     private void FixedUpdate()
     {
-        Move(UserInput.HorizontalRaw);
+        Move(_userInput.HorizontalRaw);
+    }
+
+    public void Initialize(GroundChecker groundChecker, UserInput userInput, float speed, float jumpForce)
+    {
+        _groundChecker = groundChecker;
+        _userInput = userInput;
+        Speed = speed;
+        _jumpForce = jumpForce;
     }
 
     public override void Move(float horizontalMovement)
@@ -37,12 +47,6 @@ public class CharacterMovement : Movement
         _rigidbody.velocity = new Vector2(horizontalMovement * Speed, _rigidbody.velocity.y);
     }
 
-    public void Initialize(GroundChecker groundChecker, float speed, float jumpForce)
-    {
-        _groundChecker = groundChecker;
-        Speed = speed;
-        _jumpForce = jumpForce;
-    }
 
     public void JumpEnemy()
     {

@@ -31,8 +31,8 @@ public class Character : MonoBehaviour
 
     private void Awake()
     {
-        _movement.Initialize(_groundChecker, _speed, _jumpForce);
-        _abilityTrigger.Initialize(_vampireAbility, _vampireCircle);
+        _movement.Initialize(_groundChecker, _userInput, _speed, _jumpForce);
+        _abilityTrigger.Initialize(_vampireAbility, _vampireCircle, _userInput);
         _vampireAbility.Initialize(_health);
     }
 
@@ -114,7 +114,7 @@ public class Character : MonoBehaviour
 
     private void Heal(Medkit medkit)
     {
-        if (_health.CanIncrease(medkit.Power))
+        if (_health.TryIncrease(medkit.Power))
         {
             medkit.Collect();
             Healed?.Invoke();

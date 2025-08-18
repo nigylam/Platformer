@@ -4,15 +4,14 @@ using UnityEngine;
 [RequireComponent(typeof(Animator))]
 public class Collectable : MonoBehaviour
 {
-
-    private readonly int DisapearAnimation = Animator.StringToHash("Disapear");
+    private readonly int _disapearAnimation = Animator.StringToHash("Disapear");
 
     [SerializeField] private int _power = 1;
 
-    public int Power => _power;
-
     private Animator _animator;
     private Collider2D _triggerCollider;
+
+    public int Power => _power;
 
 
     private void Awake()
@@ -28,7 +27,7 @@ public class Collectable : MonoBehaviour
 
     public void Collect()
     {
-        _animator.Play(DisapearAnimation);
+        _animator.Play(_disapearAnimation);
         _triggerCollider.enabled = false;
     }
 

@@ -1,6 +1,7 @@
 using TMPro;
 using UnityEngine;
 
+[RequireComponent(typeof(Game))]
 public class GameInterface : MonoBehaviour
 {
     [SerializeField] private GameObject _gameEnd;

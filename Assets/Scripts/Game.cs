@@ -25,7 +25,7 @@ public class Game : MonoBehaviour
         {
             return _gemsCount;
         }
-        set
+        private set
         {
             _gemsCount = value;
 

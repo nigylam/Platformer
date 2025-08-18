@@ -13,6 +13,7 @@ public class AbilityTrigger : MonoBehaviour
     private Coroutine _abilityCooldown;
     private WaitForSeconds _abilityDurationWait;
     private WaitForSeconds _cooldownDurationWait;
+    private UserInput _userInput;
     private bool _isActive = false;
     private bool _canActivate = true;
 
@@ -26,18 +27,19 @@ public class AbilityTrigger : MonoBehaviour
 
     private void OnEnable()
     {
-        UserInput.AbilityKeyPressed += EnableAbility;
+        _userInput.AbilityKeyPressed += EnableAbility;
     }
 
     private void OnDisable()
     {
-        UserInput.AbilityKeyPressed -= EnableAbility;
+        _userInput.AbilityKeyPressed -= EnableAbility;
     }
 
-    public void Initialize(VampireAbility ability, VampireCircle circle)
+    public void Initialize(VampireAbility ability, VampireCircle circle, UserInput userInput) 
     {
         _ability = ability;
         _vampireCircle = circle;
+        _userInput = userInput;
     }
 
     private void EnableAbility()

@@ -59,7 +59,7 @@ public class VampireAbility : MonoBehaviour
             enemy = GetNearestEnemy();
 
         enemy.TakeDamage(_hpStealingAmount);
-        _health.CanIncrease(_hpStealingAmount);
+        _health.TryIncrease(_hpStealingAmount);
     }
 
     private Enemy GetNearestEnemy()
